@@ -522,6 +522,11 @@ p { color: var(--muted); margin: 0 0 16px; }
   max-width: 980px;
 }
 
+.plan-steps-3 {
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 760px;
+}
+
 .plan-step { text-align: center; }
 
 .plan-step-num {
@@ -634,6 +639,7 @@ p { color: var(--muted); margin: 0 0 16px; }
 
 @media (max-width: 720px) {
   .plan-steps { grid-template-columns: repeat(2, 1fr); }
+  .plan-steps-3 { grid-template-columns: 1fr; max-width: 320px; }
 }
 
 /* Testimonials */
