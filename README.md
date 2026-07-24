@@ -15,13 +15,17 @@ A static site (plain HTML/CSS/JS, no build tools) for Dr. Clean Exterior Service
 
 ## To-do before launch
 
-1. **Connect the quote form.** The form in `free-estimate.html` currently points to a placeholder Formspree URL (`https://formspree.io/f/your-form-id`). To make it actually send you emails:
+1. **Add a Roof Washing photo.** House Soft Wash, Driveway Cleaning, Window Washing, and Limestone Soft Washing all have real before/after photos in `images/` (from the "Dr clean b/f" Google Photos album) wired into both `services.html` and `gallery.html`. Roof Washing still uses placeholders in both — add a real before/after shot to `images/` and swap it into `services.html` (`#roof` section) and `gallery.html` (Case File #04) the same way the other four are set up.
+   - The Google Photos album also has a few extra before/afters not used yet (fence cleaning, brick porch, steps, extra windows/driveways) if you want to expand the gallery later.
+2. **Connect the quote form.** The form in `free-estimate.html` currently points to a placeholder Formspree URL (`https://formspree.io/f/your-form-id`). To make it actually send you emails:
    - Create a free account at [formspree.io](https://formspree.io), create a form, and copy your endpoint.
    - Replace the `action` attribute on the `<form id="quote-form">` element in `free-estimate.html` with your real endpoint.
    - Formspree handles spam protection; no reCAPTCHA setup needed unless you want extra filtering.
    - Alternative: any static-form backend works the same way (Netlify Forms if you host on Netlify, Basin, Getform, etc.).
-2. **Write real About Us copy** — replace the bracketed placeholder text in `about.html` with your actual story.
-3. **Double-check the domain in SEO tags if you host somewhere other than `drcleanexterior.com`.** Every page's `<link rel="canonical">`, `og:url`, and the JSON-LD `url`/`@id` fields are hardcoded to `https://drcleanexterior.com/...`. Also update `sitemap.xml` and `robots.txt` (which points at `https://drcleanexterior.com/sitemap.xml`) if the domain changes.
+3. **Write real About Us copy** — replace the bracketed placeholder text in `about.html` with your actual story.
+4. **Add real customer reviews** to the testimonial section in `index.html`.
+5. **Add a map** — replace the "Service area map" placeholder in `index.html`/`about.html` with a Google Maps embed (`<iframe>`), or a custom graphic.
+6. **Double-check the domain in SEO tags if you host somewhere other than `drcleanexterior.com`.** Every page's `<link rel="canonical">`, `og:url`, and the JSON-LD `url`/`@id` fields are hardcoded to `https://drcleanexterior.com/...`. Also update `sitemap.xml` and `robots.txt` (which points at `https://drcleanexterior.com/sitemap.xml`) if the domain changes.
 
 ## SEO
 
