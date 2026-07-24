@@ -8,25 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  const form = document.querySelector("#quote-form");
-  if (form) {
-    form.addEventListener("submit", (e) => {
-      const action = form.getAttribute("action") || "";
-      if (action.includes("your-form-id")) {
-        e.preventDefault();
-        alert(
-          "Quote form isn't connected yet. Set up a Formspree endpoint (or your preferred form backend) and update the form's action attribute in this page. See README.md for instructions."
-        );
-        return;
-      }
-
-      const success = document.querySelector("#form-success");
-      if (success) {
-        success.style.display = "block";
-      }
-    });
-  }
-
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener("click", function (e) {
       const targetId = this.getAttribute("href");
