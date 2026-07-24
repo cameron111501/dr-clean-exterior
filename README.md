@@ -6,7 +6,7 @@ A static site (plain HTML/CSS/JS, no build tools) for Dr. Clean Exterior Service
 
 - `index.html` — Home
 - `services.html` — Service details (House Soft Wash, Driveway Cleaning, Window Washing, Roof Washing, Limestone Soft Washing)
-- `gallery.html` — Before/after photo gallery (placeholders)
+- `gallery.html` — Before/after photo gallery ("The Operating Room" case files)
 - `about.html` — About the company
 - `free-estimate.html` — Quote request form
 - `css/style.css` — All styling
@@ -15,17 +15,13 @@ A static site (plain HTML/CSS/JS, no build tools) for Dr. Clean Exterior Service
 
 ## To-do before launch
 
-1. **Add a Roof Washing photo.** House Soft Wash, Driveway Cleaning, Window Washing, and Limestone Soft Washing all have real before/after photos in `images/` (from the "Dr clean b/f" Google Photos album) wired into both `services.html` and `gallery.html`. Roof Washing still uses placeholders in both — add a real before/after shot to `images/` and swap it into `services.html` (`#roof` section) and `gallery.html` (Case File #04) the same way the other four are set up.
-   - The Google Photos album also has a few extra before/afters not used yet (fence cleaning, brick porch, steps, extra windows/driveways) if you want to expand the gallery later.
-2. **Connect the quote form.** The form in `free-estimate.html` currently points to a placeholder Formspree URL (`https://formspree.io/f/your-form-id`). To make it actually send you emails:
+1. **Connect the quote form.** The form in `free-estimate.html` currently points to a placeholder Formspree URL (`https://formspree.io/f/your-form-id`). To make it actually send you emails:
    - Create a free account at [formspree.io](https://formspree.io), create a form, and copy your endpoint.
    - Replace the `action` attribute on the `<form id="quote-form">` element in `free-estimate.html` with your real endpoint.
    - Formspree handles spam protection; no reCAPTCHA setup needed unless you want extra filtering.
    - Alternative: any static-form backend works the same way (Netlify Forms if you host on Netlify, Basin, Getform, etc.).
-3. **Write real About Us copy** — replace the bracketed placeholder text in `about.html` with your actual story.
-4. **Add real customer reviews** to the testimonial section in `index.html`.
-5. **Add a map** — replace the "Service area map" placeholder in `index.html`/`about.html` with a Google Maps embed (`<iframe>`), or a custom graphic.
-6. **Double-check the domain in SEO tags if you host somewhere other than `drcleanexterior.com`.** Every page's `<link rel="canonical">`, `og:url`, and the JSON-LD `url`/`@id` fields are hardcoded to `https://drcleanexterior.com/...`. Also update `sitemap.xml` and `robots.txt` (which points at `https://drcleanexterior.com/sitemap.xml`) if the domain changes.
+2. **Write real About Us copy** — replace the bracketed placeholder text in `about.html` with your actual story.
+3. **Double-check the domain in SEO tags if you host somewhere other than `drcleanexterior.com`.** Every page's `<link rel="canonical">`, `og:url`, and the JSON-LD `url`/`@id` fields are hardcoded to `https://drcleanexterior.com/...`. Also update `sitemap.xml` and `robots.txt` (which points at `https://drcleanexterior.com/sitemap.xml`) if the domain changes.
 
 ## SEO
 
@@ -50,10 +46,10 @@ npx serve .
 
 ## Deploying
 
-Any static host works. Easiest options:
+Hosted on **Vercel**, connected to this GitHub repo for auto-deploys:
 
-- **Netlify** — drag-and-drop the folder at app.netlify.com/drop, or connect a git repo for auto-deploys. Also gives you free form handling if you swap `action="https://formspree.io/..."` for Netlify's built-in form attributes.
-- **GitHub Pages** — push this folder to a repo and enable Pages in repo settings.
-- **Your current GoDaddy account** — GoDaddy also offers plain hosting/FTP if you want to keep the domain and hosting in one place.
+- `main` → production deployment (this is the live theme)
+- `dark-theme` → gets its own automatic preview deployment
+- `light-theme` → the original white-background theme, kept as a backup branch (not deployed)
 
-Once you pick a host, point the `drcleanexterior.com` domain's DNS at it and this can fully replace the current GoDaddy Website Builder site.
+Push to `main` and Vercel redeploys automatically. To point `drcleanexterior.com` at it: in Vercel, Project → Settings → Domains, add the domain, then in GoDaddy DNS management add an `A` record (`@` → `76.76.21.21`) and a `CNAME` record (`www` → `cname.vercel-dns.com`), replacing GoDaddy's default parking records.
