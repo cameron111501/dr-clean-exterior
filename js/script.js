@@ -1,4 +1,50 @@
+function initExitIntent() {
+  if (document.body.hasAttribute("data-no-exit-modal")) return;
+  if (sessionStorage.getItem("drcleanExitShown")) return;
+
+  const overlay = document.createElement("div");
+  overlay.className = "exit-modal-overlay";
+  overlay.innerHTML = `
+    <div class="exit-modal" role="dialog" aria-modal="true" aria-labelledby="exit-modal-title">
+      <button class="exit-modal-close" aria-label="Close">&times;</button>
+      <img src="images/logo-full.png" alt="Dr. Clean Exterior Services" class="exit-modal-logo">
+      <span class="exit-modal-eyebrow">Wait &mdash; Before You Go</span>
+      <h3 id="exit-modal-title">Your $25 Prescription Is Ready</h3>
+      <p>Consider this doctor's orders: take $25 off your first Dr. Clean visit. Boerne's best-reviewed exterior care, one estimate away.</p>
+      <a href="free-estimate.html" class="btn btn-primary exit-modal-cta">Claim My $25 Off</a>
+      <button class="exit-modal-dismiss">No thanks, I'll pass on the prescription</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+
+  const dismiss = () => overlay.classList.remove("active");
+  const trigger = () => {
+    if (sessionStorage.getItem("drcleanExitShown")) return;
+    overlay.classList.add("active");
+    sessionStorage.setItem("drcleanExitShown", "1");
+  };
+
+  overlay.querySelector(".exit-modal-close").addEventListener("click", dismiss);
+  overlay.querySelector(".exit-modal-dismiss").addEventListener("click", dismiss);
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) dismiss();
+  });
+
+  let armed = false;
+  setTimeout(() => { armed = true; }, 6000);
+
+  document.addEventListener("mouseout", (e) => {
+    if (!armed) return;
+    if (e.clientY <= 0 && !e.relatedTarget) trigger();
+  });
+
+  history.pushState({ drcleanExitGuard: true }, "");
+  window.addEventListener("popstate", () => trigger());
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+  initExitIntent();
+
   const toggle = document.querySelector(".nav-toggle");
   const links = document.querySelector(".nav-links");
 

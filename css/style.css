@@ -930,3 +930,99 @@ p { color: var(--muted); margin: 0 0 16px; }
   .footer-grid { grid-template-columns: 1fr; }
   .section { padding: 64px 0; }
 }
+
+/* Exit-intent modal */
+.exit-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: rgba(3, 8, 16, 0.82);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.exit-modal-overlay.active { opacity: 1; visibility: visible; }
+
+.exit-modal {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  background: linear-gradient(160deg, var(--navy) 0%, var(--bg) 100%);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 40px 32px 32px;
+  text-align: center;
+  box-shadow: var(--shadow-lg), var(--glow-red);
+  transform: scale(0.92) translateY(10px);
+  transition: transform 0.3s ease;
+}
+
+.exit-modal-overlay.active .exit-modal { transform: scale(1) translateY(0); }
+
+.exit-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.exit-modal-close:hover { background: rgba(255, 255, 255, 0.14); color: #fff; }
+
+.exit-modal-logo {
+  height: 92px;
+  width: auto;
+  margin: 0 auto 18px;
+  display: block;
+  filter: drop-shadow(0 0 12px rgba(1, 126, 244, 0.25));
+}
+
+.exit-modal-eyebrow {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+
+.exit-modal h3 { margin: 0 0 12px; font-size: 1.5rem; color: #fff; }
+.exit-modal p { margin: 0 0 26px; color: var(--muted); font-size: 0.95rem; }
+
+.exit-modal-cta { width: 100%; }
+
+.exit-modal-dismiss {
+  display: block;
+  margin: 16px auto 0;
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 0.82rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.exit-modal-dismiss:hover { color: #fff; }
+
+@media (max-width: 480px) {
+  .exit-modal { padding: 32px 22px 26px; }
+}
