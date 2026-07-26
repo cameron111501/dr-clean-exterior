@@ -40,6 +40,8 @@ function initExitIntent() {
 
   history.pushState({ drcleanExitGuard: true }, "");
   window.addEventListener("popstate", () => trigger());
+
+  setTimeout(trigger, 90000);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
