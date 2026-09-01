@@ -48,9 +48,10 @@ function initScrollReveal() {
   if (!("IntersectionObserver" in window)) return;
 
   const selector = [
-    ".service-card", ".reason-card", ".plan-card", ".testimonial-card",
+    ".service-card", ".reason-card", ".plan-card", ".plan-step", ".testimonial-card",
     ".value-card", ".case-file", ".contact-info-card", ".form-card",
     ".section-head", ".services-grid", ".hero-grid", ".page-hero > .container",
+    ".area-wrap",
   ].join(", ");
   const els = Array.from(document.querySelectorAll(selector));
   if (!els.length) return;
