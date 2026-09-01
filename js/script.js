@@ -44,8 +44,38 @@ function initExitIntent() {
   setTimeout(trigger, 90000);
 }
 
+function initScrollReveal() {
+  if (!("IntersectionObserver" in window)) return;
+
+  const selector = [
+    ".service-card", ".reason-card", ".plan-card", ".testimonial-card",
+    ".value-card", ".case-file", ".contact-info-card", ".form-card",
+    ".section-head", ".services-grid",
+  ].join(", ");
+  const els = Array.from(document.querySelectorAll(selector));
+  if (!els.length) return;
+
+  els.forEach((el) => {
+    el.classList.add("reveal");
+    const siblingIndex = Array.from(el.parentElement.children).indexOf(el);
+    el.style.transitionDelay = `${Math.min(siblingIndex * 0.08, 0.32)}s`;
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("in-view");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: "0px 0px -80px 0px" });
+
+  els.forEach((el) => observer.observe(el));
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   initExitIntent();
+  initScrollReveal();
 
   const toggle = document.querySelector(".nav-toggle");
   const links = document.querySelector(".nav-links");
