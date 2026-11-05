@@ -1127,8 +1127,8 @@ p { color: var(--muted); margin: 0 0 16px; }
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(6, 11, 20, 0.92) 0%, rgba(6, 11, 20, 0.72) 45%, rgba(6, 11, 20, 0.45) 100%),
-    linear-gradient(180deg, rgba(6, 11, 20, 0.25) 0%, rgba(6, 11, 20, 0.85) 100%);
+    linear-gradient(90deg, rgba(6, 11, 20, 0.88) 0%, rgba(6, 11, 20, 0.58) 45%, rgba(6, 11, 20, 0.22) 100%),
+    linear-gradient(180deg, rgba(6, 11, 20, 0.1) 0%, rgba(6, 11, 20, 0.7) 100%);
 }
 
 .hero-slide {
