@@ -51,7 +51,7 @@ function initScrollReveal() {
     ".service-card", ".reason-card", ".plan-card", ".plan-step", ".testimonial-card",
     ".value-card", ".case-file", ".contact-info-card", ".form-card",
     ".section-head", ".services-grid", ".hero-grid", ".page-hero > .container",
-    ".area-wrap",
+    ".area-wrap", ".diff-wrap",
   ].join(", ");
   const els = Array.from(document.querySelectorAll(selector));
   if (!els.length) return;
@@ -74,7 +74,79 @@ function initScrollReveal() {
   els.forEach((el) => observer.observe(el));
 }
 
+function initPromoBar() {
+  if (document.body.hasAttribute("data-no-exit-modal")) return;
+
+  const messages = [
+    "<b>&#10010; Rx:</b> $25 off your first visit &mdash; mention it on your free estimate",
+    "Boerne's best-reviewed exterior care &mdash; <b>5.0 &#9733; on Google</b>",
+  ];
+  const group = messages.map((m) => `<span>${m}</span>`).join("");
+
+  const bar = document.createElement("div");
+  bar.className = "promo-bar";
+  bar.setAttribute("role", "note");
+  bar.innerHTML = `<div class="promo-track">${group.repeat(4)}</div>`;
+  document.body.insertBefore(bar, document.body.firstChild);
+}
+
+function initMobileCta() {
+  if (document.body.hasAttribute("data-no-exit-modal")) return;
+  if (location.pathname.endsWith("free-estimate.html")) return;
+
+  const bar = document.createElement("div");
+  bar.className = "mobile-cta";
+  bar.innerHTML = `
+    <a href="free-estimate.html" class="btn btn-primary">Free Estimate</a>
+    <a href="tel:2107846009" class="btn btn-secondary">Call Now</a>
+  `;
+  document.body.appendChild(bar);
+  document.body.classList.add("has-mobile-cta");
+}
+
+function initHeroSlides() {
+  const hero = document.querySelector(".hero");
+  const slides = hero ? Array.from(hero.querySelectorAll(".hero-slide")) : [];
+  if (slides.length < 2) return;
+
+  const dots = document.createElement("div");
+  dots.className = "hero-dots";
+  slides.forEach((_, i) => {
+    const dot = document.createElement("button");
+    dot.type = "button";
+    dot.setAttribute("aria-label", `Show photo ${i + 1}`);
+    dot.addEventListener("click", () => { show(i); restart(); });
+    dots.appendChild(dot);
+  });
+  hero.appendChild(dots);
+
+  let current = 0;
+  let timer;
+  const show = (i) => {
+    current = i;
+    slides.forEach((s, n) => s.classList.toggle("active", n === i));
+    Array.from(dots.children).forEach((d, n) => d.classList.toggle("active", n === i));
+  };
+  const restart = () => {
+    clearInterval(timer);
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      timer = setInterval(() => show((current + 1) % slides.length), 6000);
+    }
+  };
+  show(0);
+  restart();
+}
+
+function initTrustStrip() {
+  const track = document.querySelector(".trust-strip .trust-track");
+  if (track) track.innerHTML = track.innerHTML.repeat(4);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+  initPromoBar();
+  initMobileCta();
+  initTrustStrip();
+  initHeroSlides();
   initExitIntent();
   initScrollReveal();
 
@@ -117,9 +189,10 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
 
   const testimonialGrid = document.querySelector("#testimonial-grid");
-  if (testimonialGrid && googleReviews.length > 3) {
-    const cards = Array.from(testimonialGrid.querySelectorAll(".testimonial-card"));
-    let offset = 3;
+  const testimonialCards = testimonialGrid ? testimonialGrid.querySelectorAll(".testimonial-card") : [];
+  if (testimonialGrid && googleReviews.length > testimonialCards.length) {
+    const cards = Array.from(testimonialCards);
+    let offset = cards.length;
 
     setInterval(() => {
       cards.forEach((card) => card.classList.add("fade"));
@@ -131,7 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
           card.querySelector(".testimonial-name").textContent = `${review.name} — Google review`;
           card.classList.remove("fade");
         });
-        offset = (offset + 3) % googleReviews.length;
+        offset = (offset + cards.length) % googleReviews.length;
       }, 350);
     }, 12000);
   }
