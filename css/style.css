@@ -317,21 +317,6 @@ p { color: var(--muted); margin: 0 0 16px; }
 }
 .hero-stat span { font-size: 0.85rem; color: rgba(217, 181, 103, 0.75); }
 
-.hero-card {
-  background: linear-gradient(160deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: var(--radius);
-  padding: 32px;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: var(--shadow-lg), var(--glow-blue);
-}
-
-.hero-card img {
-  border-radius: 8px;
-  margin-bottom: 18px;
-}
-
 /* Services grid */
 .services-grid {
   display: grid;
@@ -1054,7 +1039,6 @@ p { color: var(--muted); margin: 0 0 16px; }
 /* Responsive */
 @media (max-width: 900px) {
   .hero-grid { grid-template-columns: 1fr; }
-  .hero-card { order: -1; }
   .area-wrap { grid-template-columns: 1fr; }
   .contact-wrap { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
@@ -1267,8 +1251,8 @@ p { color: var(--muted); margin: 0 0 16px; }
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(6, 11, 20, 0.88) 0%, rgba(6, 11, 20, 0.58) 45%, rgba(6, 11, 20, 0.22) 100%),
-    linear-gradient(180deg, rgba(6, 11, 20, 0.1) 0%, rgba(6, 11, 20, 0.7) 100%);
+    linear-gradient(90deg, rgba(6, 11, 20, 0.86) 0%, rgba(6, 11, 20, 0.6) 34%, rgba(6, 11, 20, 0.14) 66%, rgba(6, 11, 20, 0.04) 100%),
+    linear-gradient(180deg, rgba(6, 11, 20, 0.08) 0%, rgba(6, 11, 20, 0.5) 100%);
 }
 
 .hero-slide {
@@ -1562,7 +1546,6 @@ p { color: var(--muted); margin: 0 0 16px; }
   /* Hero: text and card side by side, like the web */
   .hero { padding: 26px 0 44px; }
   .hero-grid { grid-template-columns: 1.3fr 0.7fr; gap: 10px; align-items: center; }
-  .hero-card { order: 0; }
   .hero h1 { font-size: 1.4rem; line-height: 1.12; margin-bottom: 8px; }
   .hero p.lead { font-size: 0.78rem; margin-bottom: 8px; }
   .hero-badge { font-size: 0.58rem; padding: 4px 8px; margin-bottom: 10px; letter-spacing: 0.02em; }
@@ -1571,11 +1554,6 @@ p { color: var(--muted); margin: 0 0 16px; }
   .hero-stats { gap: 8px; margin-top: 14px; flex-wrap: nowrap; }
   .hero-stat strong { font-size: 0.95rem; }
   .hero-stat span { font-size: 0.56rem; line-height: 1.25; display: block; }
-  .hero-card { padding: 10px; }
-  .hero-card img { height: 38px !important; margin: 0 auto 6px !important; }
-  .hero-card h3 { font-size: 0.7rem !important; margin-bottom: 4px; }
-  .hero-card p { font-size: 0.58rem !important; margin-bottom: 8px; line-height: 1.35; }
-  .hero-card .btn { padding: 7px 4px; font-size: 0.6rem; min-height: 32px; }
   .hero-dots { bottom: 14px; }
 
   /* Sections */
@@ -1672,4 +1650,36 @@ p { color: var(--muted); margin: 0 0 16px; }
 @media (max-width: 380px) {
   .hero h1 { font-size: 1.35rem; }
   .nav-cta .btn { padding: 8px 9px; }
+}
+
+/* Hero without the glass card: text gets the left side, photos show through on the right */
+.hero-grid { grid-template-columns: 1fr; }
+.hero-grid > div { max-width: 640px; }
+@media (max-width: 720px) {
+  .hero-grid { grid-template-columns: 1fr; }
+  .hero-grid > div { max-width: none; }
+  .hero h1 { font-size: 1.7rem; }
+  .hero p.lead { font-size: 0.9rem; }
+  .hero-actions { flex-direction: row; }
+  .hero-actions .btn { width: auto; flex: 1; font-size: 0.78rem; }
+  .hero-stat span { font-size: 0.64rem; }
+}
+
+/* Card-less hero polish: keep the text readable over open photos */
+.hero h1, .hero p.lead { text-shadow: 0 2px 18px rgba(0, 0, 0, 0.55); }
+.hero-stat strong, .hero-stat span { text-shadow: 0 1px 10px rgba(0, 0, 0, 0.6); }
+@media (max-width: 720px) {
+  /* text spans the full width on phones, so darken evenly instead of left-to-right */
+  .hero-slides::after {
+    background: linear-gradient(180deg, rgba(6, 11, 20, 0.5) 0%, rgba(6, 11, 20, 0.62) 55%, rgba(6, 11, 20, 0.86) 100%);
+  }
+}
+.hero h1 { text-wrap: balance; }
+@media (max-width: 720px) {
+  /* taller hero so the photo shows, text centred over it */
+  .hero { min-height: 470px; display: flex; align-items: center; padding: 28px 0 52px; }
+  .hero .hero-grid { width: 100%; }
+  .hero-slides::after {
+    background: linear-gradient(180deg, rgba(6, 11, 20, 0.4) 0%, rgba(6, 11, 20, 0.5) 50%, rgba(6, 11, 20, 0.78) 100%);
+  }
 }
