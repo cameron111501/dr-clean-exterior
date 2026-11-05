@@ -1822,3 +1822,23 @@ p { color: var(--muted); margin: 0 0 16px; }
     max-width: 280px;
   }
 }
+
+/* Homepage before & after results */
+.ba-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  max-width: 1040px;
+  margin: 0 auto;
+}
+.ba-card { margin: 0; text-align: center; }
+.ba-card .photo-tile { aspect-ratio: 1; }
+.ba-card figcaption { padding: 16px 6px 0; }
+.ba-card h3 { margin: 0 0 4px; font-size: 1.1rem; }
+.ba-card p { margin: 0; font-size: 0.92rem; }
+@media (max-width: 720px) {
+  .ba-grid { gap: 8px; }
+  .ba-card figcaption { padding: 8px 2px 0; }
+  .ba-card h3 { font-size: 0.7rem; margin-bottom: 2px; }
+  .ba-card p { font-size: 0.6rem; line-height: 1.35; }
+}
