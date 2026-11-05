@@ -645,8 +645,16 @@ p { color: var(--muted); margin: 0 0 16px; }
 /* Testimonials */
 .testimonial-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
+}
+
+@media (max-width: 900px) {
+  .testimonial-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .testimonial-grid { grid-template-columns: 1fr; }
 }
 
 .testimonial-card {
@@ -1184,4 +1192,154 @@ p { color: var(--muted); margin: 0 0 16px; }
 
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; transition: none; }
+}
+
+/* Promo banner, trust strip, mobile CTA bar */
+.promo-bar {
+  background: linear-gradient(90deg, #0b2a4d, var(--navy), #0b2a4d);
+  border-bottom: 1px solid rgba(217, 181, 103, 0.35);
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #fff;
+  padding: 8px 0;
+}
+
+.promo-track, .trust-track { display: inline-flex; animation: marquee-scroll 45s linear infinite; }
+.promo-bar:hover .promo-track, .trust-strip:hover .trust-track { animation-play-state: paused; }
+.promo-track span { padding: 0 32px; }
+.promo-track b { color: var(--gold); text-shadow: var(--glow-gold-text); }
+
+@keyframes marquee-scroll {
+  to { transform: translateX(-50%); }
+}
+
+.trust-strip {
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.trust-track { animation-duration: 60s; }
+.trust-track span { padding: 0 34px; color: var(--muted); font-size: 0.9rem; font-weight: 600; }
+.trust-track span::before { content: "\271A"; color: var(--red); margin-right: 14px; }
+.trust-track b { color: var(--gold); letter-spacing: 2px; margin-right: 6px; }
+
+.mobile-cta { display: none; }
+
+@media (max-width: 720px) {
+  .mobile-cta {
+    display: flex;
+    gap: 10px;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 60;
+    padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+    background: rgba(6, 11, 20, 0.92);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-top: 1px solid var(--border);
+  }
+  .mobile-cta .btn { flex: 1; padding: 12px 14px; }
+  body.has-mobile-cta { padding-bottom: 72px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .promo-track, .trust-track { animation: none; }
+  .promo-bar, .trust-strip { overflow-x: auto; }
+}
+
+/* Hero photo slideshow */
+.hero-slides {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.hero-slides::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(6, 11, 20, 0.92) 0%, rgba(6, 11, 20, 0.72) 45%, rgba(6, 11, 20, 0.45) 100%),
+    linear-gradient(180deg, rgba(6, 11, 20, 0.25) 0%, rgba(6, 11, 20, 0.85) 100%);
+}
+
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center 60%;
+  opacity: 0;
+  transform: scale(1.08);
+  transition: opacity 1.8s ease, transform 8s ease-out;
+}
+
+.hero-slide.active { opacity: 1; transform: scale(1); }
+
+.hero-dots {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 22px;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.hero-dots button {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border-radius: 999px;
+  border: 0;
+  background: rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  transition: width 0.3s ease, background 0.3s ease;
+}
+
+.hero-dots button.active { width: 26px; background: var(--blue-light); }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-slide { transition: opacity 0.4s ease; transform: none; }
+}
+
+/* Pure-water / difference section */
+.diff-wrap {
+  display: grid;
+  grid-template-columns: 0.85fr 1fr;
+  gap: 56px;
+  align-items: center;
+}
+
+.diff-photo {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg), var(--glow-blue);
+}
+
+.diff-list {
+  list-style: none;
+  margin: 28px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 22px;
+}
+
+.diff-list li { display: flex; gap: 16px; align-items: flex-start; }
+.diff-list .reason-num { margin: 2px 0 0; flex-shrink: 0; }
+.diff-list h3 { margin: 0 0 4px; font-size: 1.1rem; }
+.diff-list p { margin: 0; }
+
+@media (max-width: 900px) {
+  .diff-wrap { grid-template-columns: 1fr; gap: 32px; }
 }
