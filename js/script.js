@@ -51,7 +51,7 @@ function initScrollReveal() {
     ".service-card", ".reason-card", ".plan-card", ".plan-step", ".testimonial-card",
     ".value-card", ".case-file", ".contact-info-card", ".form-card",
     ".section-head", ".services-grid", ".hero-grid", ".page-hero > .container",
-    ".area-wrap", ".diff-wrap",
+    ".area-wrap", ".diff-wrap", ".photo-tile",
   ].join(", ");
   const els = Array.from(document.querySelectorAll(selector));
   if (!els.length) return;
@@ -124,7 +124,10 @@ function initHeroSlides() {
   // so the homepage isn't waiting on every hero photo up front.
   const load = (s) => {
     if (s.dataset.bg) {
-      s.style.backgroundImage = `url('${s.dataset.bg}')`;
+      const phone = window.matchMedia("(max-width: 720px)").matches;
+      const src = phone ? s.dataset.bg.replace("images/", "images/m/") : s.dataset.bg;
+      s.style.backgroundImage = `url('${src}')`;
+      if (s.dataset.pos) s.style.backgroundPosition = `${s.dataset.pos} 60%`;
       delete s.dataset.bg;
     }
   };
@@ -150,6 +153,29 @@ function initHeroSlides() {
   restart();
 }
 
+function initLightbox() {
+  const tiles = Array.from(document.querySelectorAll(".photo-tile"));
+  if (!tiles.length) return;
+
+  const box = document.createElement("div");
+  box.className = "lightbox";
+  box.innerHTML = '<button class="lightbox-close" aria-label="Close">&times;</button><img alt="">';
+  document.body.appendChild(box);
+  const big = box.querySelector("img");
+  const close = () => box.classList.remove("open");
+
+  tiles.forEach((tile) => {
+    tile.addEventListener("click", (e) => {
+      e.preventDefault();
+      big.src = tile.href;
+      big.alt = tile.querySelector("img").alt;
+      box.classList.add("open");
+    });
+  });
+  box.addEventListener("click", close);
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
+}
+
 function initTrustStrip() {
   const track = document.querySelector(".trust-strip .trust-track");
   if (track) track.innerHTML = track.innerHTML.repeat(4);
@@ -160,6 +186,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initMobileCta();
   initTrustStrip();
   initHeroSlides();
+  initLightbox();
   initExitIntent();
   initScrollReveal();
 
