@@ -19,7 +19,7 @@
 <meta name="twitter:image" content="https://www.drcleanexterior.com/images/logo-full.png">
 <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="images/favicon-180.png">
-<link rel="stylesheet" href="css/style.css?v=2">
+<link rel="stylesheet" href="css/style.css?v=3">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -108,57 +108,188 @@
       </div>
     </div>
 
-    <div class="form-card">
+    <div class="form-card quote-wizard" id="quote-wizard">
       <span class="eyebrow">Patient Intake Form</span>
-      <h3>Request Quote</h3>
+      <h3>Request Your Free Quote</h3>
 
-      <form id="quote-form" action="https://formspree.io/f/mjgnaqol" method="POST">
+      <div class="qw-progress" aria-hidden="true">
+        <span class="qw-dot active"></span><span class="qw-dot"></span>
+      </div>
+      <p class="qw-step-label" id="qw-step-label">Step 1 of 2 &middot; Tell us about your property</p>
+
+      <form id="quote-form" action="https://formspree.io/f/mjgnaqol" method="POST" novalidate>
+        <input type="hidden" name="_subject" value="New quote request - drcleanexterior.com">
         <input type="hidden" name="_next" value="https://www.drcleanexterior.com/thank-you.html">
-        <div class="form-row">
+        <input type="text" name="_gotcha" class="qw-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <!-- Step 1: property -->
+        <fieldset class="qw-step active" data-step="1">
+          <legend class="qw-legend">What do you need?*</legend>
+          <div class="qw-chips">
+            <label class="qw-chip qw-chip-lg"><input type="checkbox" name="category" value="Window Cleaning" data-panel="qw-panel-windows"><span>Window Cleaning</span></label>
+            <label class="qw-chip qw-chip-lg"><input type="checkbox" name="category" value="Washing" data-panel="qw-panel-washing"><span>Soft / Pressure Washing</span></label>
+          </div>
+
+          <div class="qw-panel" id="qw-panel-windows" hidden>
+            <span class="qw-panel-title">Which window services?</span>
+            <div class="qw-chips">
+              <label class="qw-chip"><input type="checkbox" name="window_services" value="Exterior Windows" checked><span>Exterior</span></label>
+              <label class="qw-chip"><input type="checkbox" name="window_services" value="Interior Windows"><span>Interior</span></label>
+              <label class="qw-chip"><input type="checkbox" name="window_services" value="Screens"><span>Screens</span></label>
+              <label class="qw-chip"><input type="checkbox" name="window_services" value="Track Cleaning"><span>Track Cleaning</span></label>
+              <label class="qw-chip"><input type="checkbox" name="window_services" value="Hard Water Removal"><span>Hard Water Removal</span></label>
+            </div>
+          </div>
+
+          <div class="qw-panel" id="qw-panel-washing" hidden>
+            <span class="qw-panel-title">Which surfaces?</span>
+            <div class="qw-chips">
+              <label class="qw-chip"><input type="checkbox" name="washing_services" value="House Soft Wash"><span>House Soft Wash</span></label>
+              <label class="qw-chip"><input type="checkbox" name="washing_services" value="Driveway"><span>Driveway</span></label>
+              <label class="qw-chip"><input type="checkbox" name="washing_services" value="Patio / Walkways"><span>Patio / Walkways</span></label>
+              <label class="qw-chip"><input type="checkbox" name="washing_services" value="Roof Wash"><span>Roof</span></label>
+              <label class="qw-chip"><input type="checkbox" name="washing_services" value="Limestone Soft Wash"><span>Stone / Limestone</span></label>
+            </div>
+          </div>
+
           <div class="field">
-            <label for="name">Full Name*</label>
-            <input type="text" id="name" name="name" required>
+            <label for="address">Address (Street, City, Zip)*</label>
+            <input type="text" id="address" name="address" placeholder="123 Main St, Boerne TX 78006" autocomplete="street-address" required>
+          </div>
+          <div class="form-row qw-row-3">
+            <div class="field">
+              <label for="property_type">Property</label>
+              <select id="property_type" name="property_type">
+                <option>Residential</option>
+                <option>Commercial</option>
+                <option>Realtor / Listing</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="sqft">Sq Ft</label>
+              <input type="number" id="sqft" name="sqft" placeholder="2,500" min="0" inputmode="numeric">
+            </div>
+            <div class="field">
+              <label for="stories">Stories</label>
+              <select id="stories" name="stories">
+                <option value="">&ndash;</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3+</option>
+              </select>
+            </div>
+          </div>
+          <p class="qw-error" id="qw-error-1" role="alert" hidden></p>
+          <button type="button" class="btn btn-secondary qw-next" style="width:100%;">Next &rarr;</button>
+        </fieldset>
+
+        <!-- Step 2: contact + scheduling -->
+        <fieldset class="qw-step" data-step="2">
+          <span class="qw-panel-title">Your contact info</span>
+          <div class="form-row">
+            <div class="field">
+              <label for="first_name">First Name*</label>
+              <input type="text" id="first_name" name="first_name" autocomplete="given-name" required>
+            </div>
+            <div class="field">
+              <label for="last_name">Last Name</label>
+              <input type="text" id="last_name" name="last_name" autocomplete="family-name">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="phone">Phone*</label>
+              <input type="tel" id="phone" name="phone" autocomplete="tel" required>
+            </div>
+            <div class="field">
+              <label for="email">Email*</label>
+              <input type="email" id="email" name="email" autocomplete="email" required>
+            </div>
+          </div>
+
+          <div class="qw-optional">
+            <div class="qw-optional-head">
+              <span class="qw-optional-badge">Optional</span>
+              <span class="qw-optional-title">Help us quote faster</span>
+            </div>
+            <p class="qw-optional-sub">Short on time? Skip this part. We'll get the rest when we call you.</p>
+
+          <span class="qw-panel-title">Best way to reach you</span>
+          <div class="qw-chips">
+            <label class="qw-chip"><input type="radio" name="contact_pref" value="Call"><span>Call</span></label>
+            <label class="qw-chip"><input type="radio" name="contact_pref" value="Text"><span>Text</span></label>
+            <label class="qw-chip"><input type="radio" name="contact_pref" value="Email"><span>Email</span></label>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="frequency">How often?</label>
+              <select id="frequency" name="frequency">
+                <option value="">Select...</option>
+                <option>One Time</option>
+                <option>Quarterly Plan</option>
+                <option>Bi-Annual Plan</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="timeline">Timeline</label>
+              <select id="timeline" name="timeline">
+                <option value="">Select...</option>
+                <option>ASAP</option>
+                <option>Within 1 Week</option>
+                <option>Within 2 Weeks</option>
+                <option>Flexible</option>
+                <option>Specific Date</option>
+              </select>
+            </div>
+          </div>
+          <div class="field" id="qw-date-field" hidden>
+            <label for="preferred_date">Preferred date</label>
+            <input type="date" id="preferred_date" name="preferred_date">
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="last_cleaned">Last cleaned</label>
+              <select id="last_cleaned" name="last_cleaned">
+                <option value="">Select...</option>
+                <option>Never / First Time</option>
+                <option>Within 3 Months</option>
+                <option>3&ndash;6 Months Ago</option>
+                <option>6&ndash;12 Months Ago</option>
+                <option>Over a Year Ago</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="referral">How did you hear about us?</label>
+              <select id="referral" name="referral">
+                <option value="">Select...</option>
+                <option>Google</option>
+                <option>Facebook</option>
+                <option>Nextdoor</option>
+                <option>Saw Your Truck</option>
+                <option>Referral / Word of Mouth</option>
+              </select>
+            </div>
+          </div>
+          <div class="field" id="qw-referrer-field" hidden>
+            <label for="referrer">Who referred you?</label>
+            <input type="text" id="referrer" name="referrer">
           </div>
           <div class="field">
-            <label for="email">Email*</label>
-            <input type="email" id="email" name="email" required>
+            <label for="message">Notes</label>
+            <textarea id="message" name="message" rows="3" placeholder="Gate code, problem areas, questions..."></textarea>
           </div>
-        </div>
-        <div class="form-row">
-          <div class="field">
-            <label for="phone">Phone Number*</label>
-            <input type="tel" id="phone" name="phone" required>
+          </div><!-- /.qw-optional -->
+          <label class="field-checkbox">
+            <input type="checkbox" name="email_optin" value="yes" checked>
+            Sign up for our email list for updates, promotions, and more.
+          </label>
+          <p class="qw-error" id="qw-error-2" role="alert" hidden></p>
+          <div class="qw-actions">
+            <button type="button" class="btn btn-outline qw-back">&larr; Back</button>
+            <button type="submit" class="btn btn-primary qw-submit">Get My Quote</button>
           </div>
-          <div class="field">
-            <label for="address">Address (Street, City, Zip Code)*</label>
-            <input type="text" id="address" name="address" required>
-          </div>
-        </div>
-        <div class="field">
-          <label for="service">What exterior cleaning services do you need?*</label>
-          <select id="service" name="service" required>
-            <option value="" disabled selected>Select a service</option>
-            <option>House Soft Wash</option>
-            <option>Driveway Cleaning</option>
-            <option>Window Washing</option>
-            <option>Roof Washing</option>
-            <option>Limestone Soft Washing</option>
-            <option>Multiple Services</option>
-            <option>Bi-Annual Maintenance Plan</option>
-            <option>Quarterly Maintenance Plan</option>
-            <option>Not Sure</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="message">Other request or questions?</label>
-          <textarea id="message" name="message" rows="4"></textarea>
-        </div>
-        <label class="field-checkbox">
-          <input type="checkbox" name="email_optin" checked>
-          Sign up for our email list for updates, promotions, and more.
-        </label>
-        <button type="submit" class="btn btn-primary" style="margin-top:8px; width:100%;">Send</button>
-        <p class="form-note">This site can be protected by reCAPTCHA once your form backend is connected. See your form provider's docs for spam protection options.</p>
+          <p class="form-note">We'll reach out within a few hours with your quote and available dates.</p>
+        </fieldset>
       </form>
     </div>
 
@@ -207,7 +338,7 @@
           <li>Same consistent crew every time</li>
           <li>Easy rebooking, no contracts</li>
         </ul>
-        <a href="#quote-form" class="btn btn-outline" style="width:100%;">Ask About This Plan</a>
+        <a href="#quote-wizard" class="btn btn-outline" data-plan="Bi-Annual Plan" style="width:100%;">Ask About This Plan</a>
       </div>
       <div class="plan-card popular">
         <span class="plan-badge">Most Popular</span>
@@ -220,7 +351,7 @@
           <li>First priority during high-demand months</li>
           <li>Ideal for homes near trees or heavy pollen</li>
         </ul>
-        <a href="#quote-form" class="btn btn-primary" style="width:100%;">Ask About This Plan</a>
+        <a href="#quote-wizard" class="btn btn-primary" data-plan="Quarterly Plan" style="width:100%;">Ask About This Plan</a>
       </div>
     </div>
   </div>
@@ -259,7 +390,7 @@
   </div>
 </footer>
 
-<script src="js/script.js?v=2"></script>
+<script src="js/script.js?v=3"></script>
 <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
 <script defer src="/_vercel/insights/script.js"></script>
 </body>
