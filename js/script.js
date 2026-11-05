@@ -347,6 +347,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if ($("#qw-referrer-field").hidden) data.delete("referrer");
 
       const submitBtn = qwForm.querySelector(".qw-submit");
+      const idleLabel = submitBtn.textContent;
       submitBtn.disabled = true;
       submitBtn.textContent = "Sending...";
       try {
@@ -356,7 +357,7 @@ document.addEventListener("DOMContentLoaded", () => {
       } catch (err) {
         showError("#qw-error-2", "Something went wrong sending your request. Please call or text 210-784-6009.");
         submitBtn.disabled = false;
-        submitBtn.textContent = "Get My Quote";
+        submitBtn.textContent = idleLabel;
       }
     });
   }

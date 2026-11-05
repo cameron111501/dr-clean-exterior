@@ -1714,20 +1714,23 @@ p { color: var(--muted); margin: 0 0 16px; }
 .lt.l1 { background: #f8fafc; }
 .lt.l2 { background: #eef5fa; }
 .lt h1, .lt h2, .lt h3, .lt h4 { color: #0c1a2e; }
-.lt .section-head h2 {
-  background: linear-gradient(120deg, #0c1a2e 35%, #017ef4 130%);
+.lt .section-head h2, .lt #areas h2 {
+  display: block;
+  width: fit-content;
+  background: linear-gradient(90deg, #0c1a2e 0%, #017ef4 125%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+.lt .section-head h2 { margin-left: auto; margin-right: auto; }
 .lt .eyebrow { color: #9a7420; text-shadow: none; }
 .lt p, .lt li { color: #475569; }
-.lt .service-card, .lt .reason-card, .lt .value-card, .lt .area-list li, .lt .photo-tile {
+.lt .service-card, .lt .reason-card, .lt .value-card, .lt .photo-tile {
   background: #fff;
   border-color: #e2e8f0;
   box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
 }
-.lt .area-list li { color: #0c1a2e; }
+.lt .area-list li { color: #0c1a2e; background: none; border: 0; box-shadow: none; padding-left: 0; padding-right: 0; }
 .lt .service-card a.learn-more, .lt .learn-more { color: #1a8cff; }
 .lt .reason-num { background: rgba(1, 126, 244, 0.1); border-color: rgba(1, 126, 244, 0.3); color: #0161bd; }
 .lt .map-embed { border-color: #e2e8f0; }
@@ -1777,9 +1780,9 @@ p { color: var(--muted); margin: 0 0 16px; }
 .lt .qw-dot:not(.active) { background: #cbd5e1; }
 .lt .quote-wizard .field-checkbox { color: #475569; }
 
-/* About me: a solid dark band between the white quote and white services */
+/* About me: a dark band that lets the page glow show through like the other dark sections */
 .about-flow {
-  background: #000;
+  background: transparent;
   padding: 76px 0;
   text-align: center;
 }
