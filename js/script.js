@@ -78,7 +78,9 @@ function initPromoBar() {
   if (document.body.hasAttribute("data-no-exit-modal")) return;
 
   const messages = [
-    "<b>&#10010; Rx:</b> $25 off your first visit &mdash; mention it on your free estimate",
+    "<b>&#10010; Pure Water:</b> spot-free, streak-free glass every visit",
+    "<b>Gentle soft-wash</b> that protects your home &mdash; results that last",
+    "Locally owned in Boerne &mdash; <b>every home treated like our own</b>",
     "Boerne's best-reviewed exterior care &mdash; <b>5.0 &#9733; on Google</b>",
   ];
   const group = messages.map((m) => `<span>${m}</span>`).join("");

@@ -1191,6 +1191,7 @@ p { color: var(--muted); margin: 0 0 16px; }
 }
 
 .promo-track, .trust-track { display: inline-flex; animation: marquee-scroll 45s linear infinite; }
+.promo-track { animation-duration: 85s; }
 .promo-bar:hover .promo-track, .trust-strip:hover .trust-track { animation-play-state: paused; }
 .promo-track span { padding: 0 32px; }
 .promo-track b { color: var(--gold); text-shadow: var(--glow-gold-text); }
@@ -1804,4 +1805,20 @@ p { color: var(--muted); margin: 0 0 16px; }
   .about-flow-points li { font-size: 0.66rem; white-space: nowrap; }
   .about-flow-points li::before { margin-right: 5px; }
   .about-flow-link { display: inline-block; padding: 8px 0; font-size: 0.8rem; }
+}
+
+/* Homepage services (web): three on top, two centered underneath */
+@media (min-width: 900px) {
+  #services > .container > .services-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 28px;
+    max-width: 912px;
+    margin: 0 auto;
+  }
+  #services > .container > .services-grid > .service-card {
+    flex: 0 0 280px;
+    max-width: 280px;
+  }
 }
