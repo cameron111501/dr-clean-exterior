@@ -1450,6 +1450,7 @@ p { color: var(--muted); margin: 0 0 16px; }
   .form-row.qw-row-3 { grid-template-columns: 1fr 1fr; }
   .qw-row-3 .field:first-child { grid-column: 1 / -1; }
   .qw-optional { padding: 16px 12px 2px; }
+}
 /* Gallery photo grid + lightbox */
 .photo-grid {
   display: grid;
