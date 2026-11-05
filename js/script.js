@@ -120,10 +120,23 @@ function initHeroSlides() {
   });
   hero.appendChild(dots);
 
+  // Slides after the first carry data-bg and are loaded once the page is ready,
+  // so the homepage isn't waiting on every hero photo up front.
+  const load = (s) => {
+    if (s.dataset.bg) {
+      s.style.backgroundImage = `url('${s.dataset.bg}')`;
+      delete s.dataset.bg;
+    }
+  };
+  const loadAll = () => slides.forEach(load);
+  if (document.readyState === "complete") setTimeout(loadAll, 300);
+  else window.addEventListener("load", () => setTimeout(loadAll, 300));
+
   let current = 0;
   let timer;
   const show = (i) => {
     current = i;
+    load(slides[i]);
     slides.forEach((s, n) => s.classList.toggle("active", n === i));
     Array.from(dots.children).forEach((d, n) => d.classList.toggle("active", n === i));
   };
