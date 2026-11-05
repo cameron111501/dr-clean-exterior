@@ -1,7 +1,7 @@
 /* Dr. Clean Exterior Services — dark/rich theme (experimental) */
 
 :root {
-  --navy: #071a30;
+  --navy: #03070d;
   --blue: #017ef4;
   --blue-light: #4fa6ff;
   --red: #d7263d;
@@ -9,8 +9,8 @@
   --gold: #d9b567;
   --ink: #f3f6fb;
   --muted: #9aa8c2;
-  --bg: #060b14;
-  --bg-alt: #0b1220;
+  --bg: #020304;
+  --bg-alt: #000000;
   --card: rgba(255, 255, 255, 0.045);
   --card-hover: rgba(255, 255, 255, 0.07);
   --border: rgba(255, 255, 255, 0.1);
@@ -162,7 +162,7 @@ p { color: var(--muted); margin: 0 0 16px; }
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgba(6, 11, 20, 0.75);
+  background: rgba(2, 3, 4, 0.75);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--border);
@@ -243,7 +243,7 @@ p { color: var(--muted); margin: 0 0 16px; }
 
 /* Hero */
 .hero {
-  background: radial-gradient(120% 140% at 15% 0%, #0f4c8f 0%, var(--navy) 55%, var(--bg) 100%);
+  background: radial-gradient(120% 140% at 15% 0%, #061a33 0%, var(--navy) 55%, var(--bg) 100%);
   color: #fff;
   padding: 110px 0 120px;
   position: relative;
@@ -486,7 +486,7 @@ p { color: var(--muted); margin: 0 0 16px; }
 
 /* Maintenance plans */
 .plans-section {
-  background: radial-gradient(120% 140% at 15% 0%, #0f4c8f 0%, var(--navy) 55%, var(--bg) 100%);
+  background: radial-gradient(120% 140% at 15% 0%, #061a33 0%, var(--navy) 55%, var(--bg) 100%);
   color: #fff;
   padding: 96px 0;
 }
@@ -717,7 +717,7 @@ p { color: var(--muted); margin: 0 0 16px; }
 }
 
 .contact-info-card {
-  background: radial-gradient(120% 140% at 15% 0%, #0f4c8f 0%, var(--navy) 55%, var(--bg) 100%);
+  background: radial-gradient(120% 140% at 15% 0%, #061a33 0%, var(--navy) 55%, var(--bg) 100%);
   color: #fff;
   border-radius: var(--radius);
   padding: 32px;
@@ -965,7 +965,7 @@ p { color: var(--muted); margin: 0 0 16px; }
 
 /* Page hero (interior pages) */
 .page-hero {
-  background: radial-gradient(120% 140% at 15% 0%, #0f4c8f 0%, var(--navy) 55%, var(--bg) 100%);
+  background: radial-gradient(120% 140% at 15% 0%, #061a33 0%, var(--navy) 55%, var(--bg) 100%);
   color: #fff;
   padding: 72px 0;
   text-align: center;
@@ -996,7 +996,7 @@ p { color: var(--muted); margin: 0 0 16px; }
 
 /* Footer */
 .site-footer {
-  background: radial-gradient(120% 140% at 15% 0%, #0f4c8f 0%, var(--navy) 55%, var(--bg) 100%);
+  background: radial-gradient(120% 140% at 15% 0%, #061a33 0%, var(--navy) 55%, var(--bg) 100%);
   color: rgba(255,255,255,0.65);
   padding: 56px 0 28px;
   border-top: 1px solid var(--border);
@@ -1054,7 +1054,7 @@ p { color: var(--muted); margin: 0 0 16px; }
     top: 100%;
     left: 0;
     right: 0;
-    background: rgba(6, 11, 20, 0.98);
+    background: rgba(2, 3, 4, 0.98);
     backdrop-filter: blur(14px);
     padding: 20px 24px;
     border-bottom: 1px solid var(--border);
@@ -1224,7 +1224,7 @@ p { color: var(--muted); margin: 0 0 16px; }
     bottom: 0;
     z-index: 60;
     padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
-    background: rgba(6, 11, 20, 0.92);
+    background: rgba(2, 3, 4, 0.92);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     border-top: 1px solid var(--border);
@@ -1251,8 +1251,8 @@ p { color: var(--muted); margin: 0 0 16px; }
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(6, 11, 20, 0.86) 0%, rgba(6, 11, 20, 0.6) 34%, rgba(6, 11, 20, 0.14) 66%, rgba(6, 11, 20, 0.04) 100%),
-    linear-gradient(180deg, rgba(6, 11, 20, 0.08) 0%, rgba(6, 11, 20, 0.5) 100%);
+    linear-gradient(90deg, rgba(2, 3, 4, 0.86) 0%, rgba(2, 3, 4, 0.6) 34%, rgba(2, 3, 4, 0.14) 66%, rgba(2, 3, 4, 0.04) 100%),
+    linear-gradient(180deg, rgba(2, 3, 4, 0.08) 0%, rgba(2, 3, 4, 0.5) 100%);
 }
 
 .hero-slide {
@@ -1671,7 +1671,7 @@ p { color: var(--muted); margin: 0 0 16px; }
 @media (max-width: 720px) {
   /* text spans the full width on phones, so darken evenly instead of left-to-right */
   .hero-slides::after {
-    background: linear-gradient(180deg, rgba(6, 11, 20, 0.5) 0%, rgba(6, 11, 20, 0.62) 55%, rgba(6, 11, 20, 0.86) 100%);
+    background: linear-gradient(180deg, rgba(2, 3, 4, 0.5) 0%, rgba(2, 3, 4, 0.62) 55%, rgba(2, 3, 4, 0.86) 100%);
   }
 }
 .hero h1 { text-wrap: balance; }
@@ -1680,6 +1680,54 @@ p { color: var(--muted); margin: 0 0 16px; }
   .hero { min-height: 470px; display: flex; align-items: center; padding: 28px 0 52px; }
   .hero .hero-grid { width: 100%; }
   .hero-slides::after {
-    background: linear-gradient(180deg, rgba(6, 11, 20, 0.4) 0%, rgba(6, 11, 20, 0.5) 50%, rgba(6, 11, 20, 0.78) 100%);
+    background: linear-gradient(180deg, rgba(2, 3, 4, 0.4) 0%, rgba(2, 3, 4, 0.5) 50%, rgba(2, 3, 4, 0.78) 100%);
   }
 }
+
+/* =====================================================
+   Luxury theme: near-black navy, white sections, gold accents
+   ===================================================== */
+.promo-bar { background: linear-gradient(90deg, #000 0%, #017ef4 45%, #000 100%); border-bottom-color: rgba(255, 255, 255, 0.12); }
+.section-alt { background: var(--bg); }
+.trust-strip { background: #000; }
+.hero h1 .hl {
+  background: linear-gradient(100deg, #8cc8ff, #017ef4);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
+  filter: drop-shadow(0 0 16px rgba(1, 126, 244, 0.4));
+}
+
+/* White sections (cool white, dark text, gold accents) */
+.lt {
+  --ink: #0c1a2e;
+  --muted: #475569;
+  --card: #ffffff;
+  --card-hover: #ffffff;
+  --border: #e2e8f0;
+  --shadow: 0 8px 24px rgba(15, 23, 42, 0.09);
+  --shadow-lg: 0 16px 48px rgba(15, 23, 42, 0.12);
+  --glow-blue: 0 0 0 rgba(0, 0, 0, 0);
+  box-shadow: none;
+}
+.lt.l1 { background: #f8fafc; }
+.lt.l2 { background: #eef5fa; }
+.lt h1, .lt h2, .lt h3, .lt h4 { color: #0c1a2e; }
+.lt .section-head h2 {
+  background: linear-gradient(120deg, #0c1a2e 35%, #b8862b 130%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.lt .eyebrow { color: #9a7420; text-shadow: none; }
+.lt p, .lt li { color: #475569; }
+.lt .service-card, .lt .reason-card, .lt .value-card, .lt .area-list li, .lt .photo-tile {
+  background: #fff;
+  border-color: #e2e8f0;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+.lt .area-list li { color: #0c1a2e; }
+.lt .service-card a.learn-more, .lt .learn-more { color: #9a7420; }
+.lt .reason-num { background: rgba(1, 126, 244, 0.1); border-color: rgba(1, 126, 244, 0.3); color: #0161bd; }
+.lt .map-embed { border-color: #e2e8f0; }
