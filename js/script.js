@@ -9,9 +9,9 @@ function initExitIntent() {
       <button class="exit-modal-close" aria-label="Close">&times;</button>
       <img src="images/logo-full.png" alt="Dr. Clean Exterior Services" class="exit-modal-logo">
       <span class="exit-modal-eyebrow">Wait &mdash; Before You Go</span>
-      <h3 id="exit-modal-title">Your $25 Prescription Is Ready</h3>
-      <p>Consider this doctor's orders: take $25 off your first Dr. Clean visit. Boerne's best-reviewed exterior care, one estimate away.</p>
-      <a href="free-estimate.html" class="btn btn-primary exit-modal-cta">Claim My $25 Off</a>
+      <h3 id="exit-modal-title">Your Free Screen Cleaning Is Ready</h3>
+      <p>Consider this doctor's orders: get your window screens cleaned free with your first Dr. Clean visit. Boerne's best-reviewed exterior care, one estimate away.</p>
+      <a href="free-estimate.html" class="btn btn-primary exit-modal-cta">Claim My Free Screen Cleaning</a>
       <button class="exit-modal-dismiss">No thanks, I'll pass on the prescription</button>
     </div>
   `;
@@ -100,7 +100,7 @@ function initMobileCta() {
   bar.className = "mobile-cta";
   bar.innerHTML = `
     <a href="free-estimate.html" class="btn btn-primary">Free Estimate</a>
-    <a href="tel:2107846009" class="btn btn-secondary">Call Now</a>
+    <a href="tel:2107846009" class="btn btn-secondary">Call/Text Now</a>
   `;
   document.body.appendChild(bar);
   document.body.classList.add("has-mobile-cta");

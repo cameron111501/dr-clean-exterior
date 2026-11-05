@@ -1,0 +1,311 @@
+/*
+ * Address autocomplete for the estimate form (Google Places API (New)).
+ *
+ * Progressive enhancement: with no API key (or if Google fails to load / the key
+ * is rejected) the address box stays a normal text field and the form works exactly
+ * as before.
+ *
+ * SETUP: paste your browser API key below. It is meant to be public, so it MUST be
+ * locked down in Google Cloud (HTTP referrer + API restrictions). See README.md,
+ * "Address autocomplete (Google Places)".
+ */
+(function () {
+  "use strict";
+
+  var PLACES_API_KEY = ""; // e.g. "AIza..." (restricted browser key)
+
+  // Bias results toward the service area (San Antonio / Stone Oak / Helotes / Boerne /
+  // Fair Oaks Ranch). It is a bias, not a restriction, so any valid US address still works.
+  var BIAS = { center: { lat: 29.72, lng: -98.62 }, radius: 50000 };
+  var MIN_CHARS = 3;
+  var DEBOUNCE_MS = 220;
+  var MAX_RESULTS = 5;
+
+  var input = document.getElementById("address");
+  if (!input || !PLACES_API_KEY) return;
+
+  var field = input.closest(".field") || input.parentElement;
+  var listId = "pac-list";
+  var placesLib = null;
+  var loadPromise = null;
+  var sessionToken = null;
+  var useTypeFilter = true;
+  var suggestions = [];
+  var activeIndex = -1;
+  var requestSeq = 0;
+  var debounceTimer = null;
+  var blurTimer = null;
+  var selectedValue = "";
+  var disabled = false;
+
+  /* ---------- Google loader (lazy: only when the customer touches the field) ---------- */
+  function loadPlaces() {
+    if (loadPromise) return loadPromise;
+    loadPromise = new Promise(function (resolve, reject) {
+      if (window.google && google.maps && google.maps.importLibrary) return resolve();
+      window.__drcleanMapsReady = resolve;
+      var s = document.createElement("script");
+      s.src = "https://maps.googleapis.com/maps/api/js?key=" + encodeURIComponent(PLACES_API_KEY) +
+        "&v=weekly&loading=async&language=en&region=US&callback=__drcleanMapsReady";
+      s.async = true;
+      s.onerror = reject;
+      document.head.appendChild(s);
+    }).then(function () {
+      return google.maps.importLibrary("places");
+    }).then(function (lib) {
+      placesLib = lib;
+      sessionToken = new lib.AutocompleteSessionToken();
+      // Browser autofill would draw its own list on top of ours.
+      input.setAttribute("autocomplete", "off");
+      return lib;
+    });
+    // A bad/over-restricted key surfaces here; fall back to a plain field.
+    window.gm_authFailure = function () { disable(); };
+    loadPromise.catch(function () { disable(); });
+    return loadPromise;
+  }
+
+  function disable() {
+    disabled = true;
+    closeList();
+  }
+
+  /* ---------- Dropdown UI ---------- */
+  var list = document.createElement("div");
+  list.className = "pac-list";
+  list.id = listId;
+  list.hidden = true;
+  list.innerHTML = '<ul role="listbox" aria-label="Address suggestions"></ul>' +
+    '<div class="pac-attrib"><img alt="Powered by Google" width="120" height="14"></div>';
+  var ul = list.querySelector("ul");
+  var attribImg = list.querySelector("img");
+  field.classList.add("pac-host");
+  field.appendChild(list);
+
+  input.setAttribute("role", "combobox");
+  input.setAttribute("aria-autocomplete", "list");
+  input.setAttribute("aria-expanded", "false");
+  input.setAttribute("aria-controls", listId);
+
+  // Hidden pieces of the chosen address, sent along with the form for convenience.
+  var hidden = {};
+  ["city", "state", "zip"].forEach(function (k) {
+    var h = document.createElement("input");
+    h.type = "hidden";
+    h.name = "address_" + k;
+    field.appendChild(h);
+    hidden[k] = h;
+  });
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
+  function highlight(ft) {
+    var text = ft && ft.text ? ft.text : "";
+    var matches = (ft && ft.matches) || [];
+    if (!matches.length) return esc(text);
+    var out = "";
+    var pos = 0;
+    matches.forEach(function (m) {
+      var start = m.startOffset || 0;
+      var end = m.endOffset || 0;
+      if (start < pos) return;
+      out += esc(text.slice(pos, start)) + "<b>" + esc(text.slice(start, end)) + "</b>";
+      pos = end;
+    });
+    return out + esc(text.slice(pos));
+  }
+
+  function render() {
+    ul.innerHTML = "";
+    suggestions.forEach(function (sg, i) {
+      var p = sg.placePrediction;
+      var li = document.createElement("li");
+      li.id = "pac-opt-" + i;
+      li.setAttribute("role", "option");
+      li.setAttribute("aria-selected", i === activeIndex ? "true" : "false");
+      li.innerHTML = '<span class="pac-pin" aria-hidden="true"></span><span class="pac-text">' +
+        '<span class="pac-main">' + highlight(p.mainText) + "</span>" +
+        '<span class="pac-secondary">' + esc((p.secondaryText && p.secondaryText.text) || "") + "</span></span>";
+      li.addEventListener("click", function () { choose(i); });
+      li.addEventListener("mousemove", function () { setActive(i, true); });
+      ul.appendChild(li);
+    });
+    var open = suggestions.length > 0;
+    if (open) {
+      var light = !!input.closest(".lt");
+      list.classList.toggle("pac-light", light);
+      attribImg.src = "https://maps.gstatic.com/mapfiles/api-3/images/powered-by-google-on-" +
+        (light ? "white3" : "non-white3") + "_hdpi.png";
+    }
+    list.hidden = !open;
+    input.setAttribute("aria-expanded", open ? "true" : "false");
+    if (!open || activeIndex < 0) input.removeAttribute("aria-activedescendant");
+  }
+
+  function setActive(i, fromMouse) {
+    activeIndex = i;
+    Array.prototype.forEach.call(ul.children, function (li, idx) {
+      li.setAttribute("aria-selected", idx === i ? "true" : "false");
+    });
+    if (i >= 0) {
+      input.setAttribute("aria-activedescendant", "pac-opt-" + i);
+      if (!fromMouse) ul.children[i].scrollIntoView({ block: "nearest" });
+    } else {
+      input.removeAttribute("aria-activedescendant");
+    }
+  }
+
+  function closeList() {
+    suggestions = [];
+    activeIndex = -1;
+    render();
+  }
+
+  /* ---------- Fetch suggestions ---------- */
+  function fetchSuggestions(value) {
+    var seq = ++requestSeq;
+    loadPlaces().then(function (lib) {
+      if (disabled || seq !== requestSeq) return;
+      var req = {
+        input: value,
+        sessionToken: sessionToken,
+        locationBias: BIAS,
+        includedRegionCodes: ["us"],
+        language: "en-US",
+        region: "us"
+      };
+      // Street addresses only (not businesses/landmarks). If Google rejects the
+      // type filter for any reason, retry once without it and remember that.
+      if (useTypeFilter) req.includedPrimaryTypes = ["street_address", "premise", "subpremise"];
+      return lib.AutocompleteSuggestion.fetchAutocompleteSuggestions(req).catch(function (err) {
+        if (!useTypeFilter) throw err;
+        useTypeFilter = false;
+        delete req.includedPrimaryTypes;
+        return lib.AutocompleteSuggestion.fetchAutocompleteSuggestions(req);
+      }).then(function (res) {
+        if (disabled || seq !== requestSeq) return;
+        suggestions = (res.suggestions || []).filter(function (s) { return s.placePrediction; }).slice(0, MAX_RESULTS);
+        activeIndex = -1;
+        render();
+      });
+    }).catch(function () {
+      // Never block the form: quietly hide suggestions.
+      if (seq === requestSeq) closeList();
+    });
+  }
+
+  /* ---------- Selecting a suggestion ---------- */
+  function component(comps, type, short) {
+    for (var i = 0; i < comps.length; i++) {
+      if (comps[i].types && comps[i].types.indexOf(type) !== -1) {
+        return (short ? comps[i].shortText : comps[i].longText) || "";
+      }
+    }
+    return "";
+  }
+
+  function compose(place) {
+    var comps = place.addressComponents || [];
+    var num = component(comps, "street_number");
+    var route = component(comps, "route", true) || component(comps, "route");
+    var unit = component(comps, "subpremise");
+    var city = component(comps, "locality") || component(comps, "postal_town") ||
+      component(comps, "sublocality_level_1") || component(comps, "administrative_area_level_3");
+    var state = component(comps, "administrative_area_level_1", true);
+    var zip = component(comps, "postal_code");
+    var street = (num + " " + route).trim();
+    if (unit) street += " #" + unit.replace(/^#/, "");
+    var tail = (state + " " + zip).trim();
+    var line = [street, city, tail].filter(Boolean).join(", ");
+    if (!street || !city) {
+      // Fall back to Google's own formatting if components were incomplete.
+      line = (place.formattedAddress || line).replace(/,\s*USA$/, "");
+    }
+    return { line: line, city: city, state: state, zip: zip };
+  }
+
+  function choose(i) {
+    var sg = suggestions[i];
+    if (!sg) return;
+    var token = sessionToken;
+    var fallback = sg.placePrediction.text && sg.placePrediction.text.text || "";
+    closeList();
+    setValue(fallback.replace(/,\s*USA$/, ""), {});
+    var place = sg.placePrediction.toPlace();
+    // Ending the session with a Place Details request (minimum fields) keeps
+    // billing to a single session.
+    place.fetchFields({ fields: ["addressComponents", "formattedAddress"] }).then(function () {
+      var a = compose(place);
+      setValue(a.line, a);
+    }).catch(function () {
+      /* keep the fallback text already filled in */
+    }).then(function () {
+      if (token === sessionToken && placesLib) sessionToken = new placesLib.AutocompleteSessionToken();
+    });
+  }
+
+  function setValue(text, parts) {
+    selectedValue = text;
+    input.value = text;
+    hidden.city.value = parts.city || "";
+    hidden.state.value = parts.state || "";
+    hidden.zip.value = parts.zip || "";
+    input.dispatchEvent(new Event("input", { bubbles: true, detail: "pac" }));
+    input.dispatchEvent(new Event("change", { bubbles: true }));
+  }
+
+  /* ---------- Input events ---------- */
+  input.addEventListener("focus", function () {
+    clearTimeout(blurTimer);
+    loadPlaces().catch(function () {});
+    if (window.matchMedia("(max-width: 720px)").matches) {
+      setTimeout(function () { input.scrollIntoView({ block: "start", behavior: "smooth" }); }, 300);
+    }
+  });
+
+  input.addEventListener("input", function () {
+    if (disabled) return;
+    var value = input.value;
+    if (value === selectedValue) return; // our own programmatic fill
+    hidden.city.value = hidden.state.value = hidden.zip.value = "";
+    clearTimeout(debounceTimer);
+    if (value.trim().length < MIN_CHARS) {
+      requestSeq++;
+      closeList();
+      return;
+    }
+    debounceTimer = setTimeout(function () { fetchSuggestions(value.trim()); }, DEBOUNCE_MS);
+  });
+
+  input.addEventListener("keydown", function (e) {
+    var open = !list.hidden && suggestions.length > 0;
+    if (e.key === "ArrowDown" && open) {
+      e.preventDefault();
+      setActive((activeIndex + 1) % suggestions.length);
+    } else if (e.key === "ArrowUp" && open) {
+      e.preventDefault();
+      setActive(activeIndex <= 0 ? suggestions.length - 1 : activeIndex - 1);
+    } else if (e.key === "Enter" && open && activeIndex >= 0) {
+      e.preventDefault();
+      choose(activeIndex);
+    } else if (e.key === "Escape" && open) {
+      e.preventDefault();
+      closeList();
+    } else if (e.key === "Tab") {
+      closeList();
+    }
+  });
+
+  input.addEventListener("blur", function () {
+    // Delay so a tap/click on a suggestion registers before the list closes.
+    blurTimer = setTimeout(closeList, 200);
+  });
+
+  document.addEventListener("click", function (e) {
+    if (!field.contains(e.target)) closeList();
+  });
+})();
