@@ -714,7 +714,8 @@ p { color: var(--muted); margin: 0 0 16px; }
 
 /* CTA band */
 .cta-band {
-  background: linear-gradient(120deg, var(--blue) 0%, var(--red) 100%);
+  /* light to deep blue, same family as the "Window Cleaning" headline (#8cc8ff to #017ef4), carried on to a deeper navy-blue */
+  background: linear-gradient(120deg, #6db8ff 0%, #017ef4 48%, #01489a 100%);
   color: #fff;
   padding: 64px 0;
   text-align: center;
@@ -731,8 +732,8 @@ p { color: var(--muted); margin: 0 0 16px; }
 
 .cta-band .container { position: relative; z-index: 1; }
 
-.cta-band h2 { color: #fff; margin-bottom: 12px; -webkit-text-fill-color: #fff; background: none; }
-.cta-band p { color: rgba(255,255,255,0.92); }
+.cta-band h2 { color: #fff; margin-bottom: 12px; -webkit-text-fill-color: #fff; background: none; text-shadow: 0 2px 12px rgba(0, 24, 70, 0.4); }
+.cta-band p { color: rgba(255,255,255,0.95); text-shadow: 0 1px 8px rgba(0, 24, 70, 0.35); }
 
 /* Contact / quote form */
 .contact-wrap {
