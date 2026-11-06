@@ -1775,6 +1775,8 @@ p { color: var(--muted); margin: 0 0 16px; }
   }
 }
 .hero h1 { text-wrap: balance; }
+/* the line under the headline is bold */
+.hero p.lead { font-weight: 700; }
 /* "Premium Pure Water" in Playfair Display Bold, "Window Cleaning" in Montserrat ExtraBold; both tightened -0.02em with a light shadow under the lines */
 .hero h1 {
   font-family: "Playfair Display", Georgia, "Times New Roman", serif;
@@ -1792,7 +1794,7 @@ p { color: var(--muted); margin: 0 0 16px; }
 @media (min-width: 721px) {
   .hero-grid > div { max-width: 700px; }
   .hero h1 { font-size: clamp(2.6rem, 4.1vw, 3.7rem); line-height: 1.1; margin-bottom: 18px; }
-  .hero p.lead { font-size: clamp(1.05rem, 1.35vw, 1.25rem); line-height: 1.55; max-width: 560px; }
+  .hero p.lead { font-size: clamp(1.05rem, 1.35vw, 1.25rem); line-height: 1.55; max-width: 660px; }
   .hero-badge { font-size: 0.85rem; padding: 9px 18px; margin-bottom: 22px; }
   .hero-actions { gap: 18px; margin-top: 30px; }
   .hero-actions .btn { font-size: 1rem; padding: 15px 32px; }
