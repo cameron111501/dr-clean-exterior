@@ -5,7 +5,7 @@ A static site (plain HTML/CSS/JS, no build tools) for Dr. Clean Exterior Service
 ## Structure
 
 - `index.html` — Home
-- `services.html` — Service details (House Soft Wash, Driveway Cleaning, Window Washing, Roof Washing, Limestone Soft Washing)
+- `services.html` — Service details (House Soft Wash, Driveway Cleaning, Window Cleaning, Roof Washing, Limestone Soft Washing)
 - `gallery.html` — Before/after photo gallery ("The Operating Room" case files)
 - `about.html` — About the company
 - `free-estimate.html` — Quote request form

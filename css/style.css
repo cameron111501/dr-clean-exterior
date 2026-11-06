@@ -1,19 +1,19 @@
 /* Dr. Clean Exterior Services — dark/rich theme (experimental) */
 
-/* Hero headline fonts (self-hosted, Latin subset): Playfair Display SemiBold + Montserrat Bold */
+/* Hero headline fonts (self-hosted, Latin subset): Playfair Display Bold + Montserrat ExtraBold */
 @font-face {
   font-family: "Playfair Display";
   font-style: normal;
-  font-weight: 600;
+  font-weight: 700;
   font-display: swap;
-  src: url("../fonts/playfair-display-600.woff2") format("woff2");
+  src: url("../fonts/playfair-display-700.woff2") format("woff2");
 }
 @font-face {
   font-family: "Montserrat";
   font-style: normal;
-  font-weight: 700;
+  font-weight: 800;
   font-display: swap;
-  src: url("../fonts/montserrat-700.woff2") format("woff2");
+  src: url("../fonts/montserrat-800.woff2") format("woff2");
 }
 
 :root {
@@ -1744,9 +1744,19 @@ p { color: var(--muted); margin: 0 0 16px; }
   }
 }
 .hero h1 { text-wrap: balance; }
-/* "Premium Pure Water" in Playfair Display SemiBold, "Window Cleaning" in Montserrat Bold */
-.hero h1 { font-family: "Playfair Display", Georgia, "Times New Roman", serif; font-weight: 600; }
-.hero h1 .hl { font-family: "Montserrat", "Segoe UI", system-ui, sans-serif; font-weight: 700; letter-spacing: -0.01em; }
+/* "Premium Pure Water" in Playfair Display Bold, "Window Cleaning" in Montserrat ExtraBold; both tightened -0.02em with a light shadow under the lines */
+.hero h1 {
+  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+}
+.hero h1 .hl {
+  font-family: "Montserrat", "Segoe UI", system-ui, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  /* the blue line is gradient-filled text, so its shadow is a drop-shadow set in the rule further down (a text-shadow would show through the glyphs) */
+}
 /* Bigger hero text on computers (the hero now fills the whole screen, so the type needs to match) */
 @media (min-width: 721px) {
   .hero-grid > div { max-width: 700px; }
@@ -1784,7 +1794,8 @@ p { color: var(--muted); margin: 0 0 16px; }
   background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: none;
-  filter: drop-shadow(0 0 16px rgba(1, 126, 244, 0.4));
+  /* soft dark shadow under the line + the existing blue glow */
+  filter: drop-shadow(0 2px 12px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 16px rgba(1, 126, 244, 0.4));
 }
 
 /* White sections (cool white, dark text, gold accents) */
