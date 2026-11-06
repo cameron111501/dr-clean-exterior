@@ -2014,7 +2014,7 @@ p { color: var(--muted); margin: 0 0 16px; }
 /* the logo fills the photo spot at the top of the card */
 #services .service-photo-logo { align-self: stretch; background: linear-gradient(160deg, #ffffff 0%, #e9f3ff 100%); }
 #services .service-photo-logo::after { display: none; }
-#services .service-photo-logo img { position: absolute; inset: 9%; width: 82%; height: 82%; object-fit: contain; }
+#services .service-photo-logo img { position: absolute; inset: 22.5%; width: 55%; height: 55%; object-fit: contain; } /* one third smaller than before (82% to 55%) */
 #services .service-card-cta h3 { font-size: 1.2rem; }
 #services .service-card-cta p { margin-bottom: 18px; }
 @media (max-width: 720px) {
