@@ -1738,6 +1738,8 @@ p { color: var(--muted); margin: 0 0 16px; }
   .site-footer { --footer-gap: 22px; }
   .footer-logo { height: 100px; margin: 0; }
   .footer-bottom { flex-direction: column; align-items: center; text-align: center; font-size: 0.62rem; gap: 6px; }
+  /* the areas line ("Boerne • … • Alamo Heights") stays on one line; the text shrinks on narrower phones (it is ~34.7 x the font size wide) */
+  .footer-bottom span:last-child { white-space: nowrap; font-size: min(0.62rem, calc((100vw - 28px) / 35.5)); }
 
   /* Exit popup */
   .exit-modal-logo { height: 72px; }
@@ -1934,20 +1936,95 @@ p { color: var(--muted); margin: 0 0 16px; }
   .about-flow-link { display: inline-block; padding: 8px 0; font-size: 0.8rem; }
 }
 
-/* Homepage services (web): three on top, two centered underneath */
+/* Homepage services (desktop): full-width grid, three cards per row (3 on top, 3 below), all cards the same height with the
+   photos, titles, text and "Learn more" links lined up across each row. Phones keep their own 2-column grid. */
 @media (min-width: 900px) {
   #services > .container > .services-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-auto-rows: 1fr; /* every row (and so every card) is as tall as the tallest card */
     gap: 28px;
-    max-width: 912px;
-    margin: 0 auto;
+    max-width: none;
+    margin: 0;
   }
   #services > .container > .services-grid > .service-card {
-    flex: 0 0 280px;
-    max-width: 280px;
+    display: flex;
+    flex-direction: column;
+    max-width: none;
   }
+  /* every photo is the same square, whatever the file's own proportions (the image fills the box instead of sizing it) */
+  #services .service-photo { flex: 0 0 auto; min-height: 0; }
+  #services .service-photo img { position: absolute; inset: 0; }
+  #services .service-card p { flex: 1 1 auto; }            /* text fills the middle so the links sit at the same height */
+  #services .service-card a.learn-more { align-self: flex-start; margin-top: auto; }
+  #services .service-card-cta .btn { margin-top: auto; }    /* the "Not Sure" button sits at the bottom, level with the other cards' links */
+}
+
+/* Homepage "Services We Offer" polish (scoped to #services so other pages are untouched) */
+#services .service-card {
+  position: relative;
+  /* soft blue glow in place of the gray shadow */
+  box-shadow: 0 6px 22px rgba(1, 126, 244, 0.14);
+  border-color: rgba(1, 126, 244, 0.14);
+}
+/* thin blue accent line across the top of each card (same blues as the "Window Cleaning" headline) */
+#services .service-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 3px;
+  z-index: 3;
+  background: linear-gradient(90deg, #8cc8ff, #017ef4);
+}
+#services .service-card:hover { transform: none; box-shadow: 0 8px 26px rgba(1, 126, 244, 0.22); }
+@media (hover: hover) and (min-width: 721px) {
+  /* desktop: a slight lift and a stronger glow on hover */
+  #services .service-card:hover { transform: translateY(-5px); box-shadow: 0 16px 36px rgba(1, 126, 244, 0.28); }
+}
+
+/* Before / After pills on the photos (before = top or left half, after = bottom or right half) */
+.ba-tag {
+  position: absolute;
+  z-index: 2;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(8, 16, 30, 0.62);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.04em;
+  pointer-events: none;
+}
+.split-v .ba-tag-before, .split-h .ba-tag-before { top: 12px; left: 10px; }
+.split-v .ba-tag-after { top: calc(50% + 10px); left: 10px; }
+.split-h .ba-tag-after { top: 12px; left: calc(50% + 10px); }
+
+/* 6th card: "Not Sure What You Need?" */
+#services .service-card-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  background: linear-gradient(160deg, #f4f9ff 0%, #e4f0ff 100%);
+}
+/* the logo fills the photo spot at the top of the card */
+#services .service-photo-logo { align-self: stretch; background: linear-gradient(160deg, #ffffff 0%, #e9f3ff 100%); }
+#services .service-photo-logo::after { display: none; }
+#services .service-photo-logo img { position: absolute; inset: 9%; width: 82%; height: 82%; object-fit: contain; }
+#services .service-card-cta h3 { font-size: 1.2rem; }
+#services .service-card-cta p { margin-bottom: 18px; }
+@media (max-width: 720px) {
+  .ba-tag { padding: 2px 7px; font-size: 0.54rem; }
+  .split-v .ba-tag-before, .split-h .ba-tag-before { top: 8px; left: 6px; }
+  .split-v .ba-tag-after { top: calc(50% + 6px); left: 6px; }
+  .split-h .ba-tag-after { top: 8px; left: calc(50% + 6px); }
+  #services .service-card-cta h3 { font-size: 0.82rem; }
+  #services .service-card-cta p { margin-bottom: 10px; }
+  #services .service-card-cta .btn { width: 100%; padding: 8px 6px; font-size: 0.64rem; line-height: 1.25; white-space: normal; }
 }
 
 /* Homepage before & after results */
