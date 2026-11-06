@@ -2028,6 +2028,18 @@ p { color: var(--muted); margin: 0 0 16px; }
 .about-flow-points li::before { content: "\271A"; color: var(--red); margin-right: 8px; text-shadow: none; }
 .about-flow-link { font-weight: 700; color: #4da3ff; }
 .about-flow-link:hover { color: #fff; }
+/* outlined blue button (e.g. "More about us"): blue outline and text, fills blue on hover */
+.btn-outline-blue { background: transparent; border-color: #017ef4; color: #4da3ff; }
+.btn-outline-blue:hover { background: #017ef4; border-color: #017ef4; color: #fff; box-shadow: 0 10px 28px rgba(1, 126, 244, 0.35); }
+.about-flow .btn-outline-blue { margin-top: 4px; }
+
+/* "Don't see your area?" line under the town list */
+.area-note { margin: 18px 0 0; font-size: 0.98rem; }
+.area-note a { color: #017ef4; font-weight: 700; border-bottom: 1px solid rgba(1, 126, 244, 0.45); transition: border-color 0.15s ease; }
+.area-note a:hover { border-bottom-color: #017ef4; }
+@media (max-width: 720px) {
+  .area-note { font-size: 0.8rem; margin-top: 12px; }
+}
 @media (max-width: 720px) {
   .about-flow { padding: 48px 0; }
   .about-flow h2 { font-size: 1.3rem; margin-bottom: 8px; }
