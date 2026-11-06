@@ -1024,7 +1024,8 @@ p { color: var(--muted); margin: 0 0 16px; }
 .site-footer {
   background: radial-gradient(120% 140% at 15% 0%, #061a33 0%, var(--navy) 55%, var(--bg) 100%);
   color: rgba(255,255,255,0.65);
-  padding: 56px 0 28px;
+  --footer-gap: 32px; /* same space above the logo (under the colour band) and between the logo and the text */
+  padding: var(--footer-gap) 0 28px;
   border-top: 1px solid var(--border);
 }
 
@@ -1043,11 +1044,13 @@ p { color: var(--muted); margin: 0 0 16px; }
 
 .footer-brand .brand { color: #fff; margin-bottom: 12px; }
 .footer-brand p { color: rgba(255,255,255,0.55); max-width: 320px; }
+/* the logo centres over the tagline: the brand block is as wide as the text */
+.footer-brand { max-width: 320px; }
 
 .footer-logo {
-  height: 84px;
+  height: 140px;
   width: auto;
-  margin-bottom: 16px;
+  margin: 0 auto var(--footer-gap);
   display: block;
   filter: drop-shadow(0 0 16px rgba(1, 126, 244, 0.25));
 }
@@ -1707,7 +1710,8 @@ p { color: var(--muted); margin: 0 0 16px; }
   .footer-grid li { margin-bottom: 0; font-size: 0.64rem; }
   .footer-grid a { display: inline-block; padding: 7px 0; word-break: break-word; }
   .footer-brand p { font-size: 0.62rem; }
-  .footer-logo { height: 44px; }
+  .site-footer { --footer-gap: 22px; }
+  .footer-logo { height: 84px; }
   .footer-bottom { flex-direction: column; align-items: center; text-align: center; font-size: 0.62rem; gap: 6px; }
 
   /* Exit popup */
