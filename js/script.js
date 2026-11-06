@@ -92,6 +92,20 @@ function initPromoBar() {
   document.body.insertBefore(bar, document.body.firstChild);
 }
 
+// Tell the CSS how tall the promo bar + header are so the homepage hero can fill exactly the rest of the screen.
+function initHeroFull() {
+  if (!document.querySelector(".hero")) return;
+  const set = () => {
+    const promo = document.querySelector(".promo-bar");
+    const header = document.querySelector(".site-header");
+    const h = (promo ? promo.offsetHeight : 0) + (header ? header.offsetHeight : 0);
+    document.documentElement.style.setProperty("--chrome", h + "px");
+  };
+  set();
+  window.addEventListener("resize", set);
+  window.addEventListener("load", set);
+}
+
 function initMobileCta() {
   if (document.body.hasAttribute("data-no-exit-modal")) return;
   if (location.pathname.endsWith("free-estimate.html")) return;
@@ -311,6 +325,7 @@ function initTrustStrip() {
 
 document.addEventListener("DOMContentLoaded", () => {
   initPromoBar();
+  initHeroFull();
   initMobileCta();
   initTrustStrip();
   initHeroSlides();

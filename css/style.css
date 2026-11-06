@@ -25,7 +25,8 @@
 
 * { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+/* Stop phone browsers from auto-enlarging some text blocks (it made the top banner look like mixed sizes) */
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 
 body {
   margin: 0;
@@ -251,8 +252,9 @@ p { color: var(--muted); margin: 0 0 16px; }
   padding: 110px 0 120px;
   position: relative;
   overflow: hidden;
-  /* Fill most of the first screen; text stays vertically centred */
-  min-height: min(max(640px, calc(100vh - 150px)), 880px);
+  /* Fills the whole first screen under the promo bar + header (JS sets --chrome to their height), so nothing else shows until you scroll; text stays vertically centred */
+  min-height: max(520px, calc(100vh - var(--chrome, 150px)));
+  min-height: max(520px, calc(100svh - var(--chrome, 150px)));
   display: flex;
   align-items: center;
 }
@@ -1204,7 +1206,7 @@ p { color: var(--muted); margin: 0 0 16px; }
 .promo-track { animation-duration: 85s; }
 .promo-bar:hover .promo-track, .trust-strip:hover .trust-track { animation-play-state: paused; }
 .promo-track span { padding: 0 32px; }
-.promo-track b { color: var(--gold); text-shadow: var(--glow-gold-text); }
+.promo-track b { color: var(--gold); text-shadow: var(--glow-gold-text); font-size: inherit; font-weight: 700; }
 
 @keyframes marquee-scroll {
   to { transform: translateX(-50%); }
@@ -1728,7 +1730,7 @@ p { color: var(--muted); margin: 0 0 16px; }
 .hero h1 { text-wrap: balance; }
 @media (max-width: 720px) {
   /* taller hero so the photo shows, text centred over it */
-  .hero { min-height: max(580px, calc(100svh - 150px)); display: flex; align-items: center; padding: 28px 0 52px; }
+  .hero { display: flex; align-items: center; padding: 28px 0 52px; }
   .hero .hero-grid { width: 100%; }
   .hero-slides::after {
     background: linear-gradient(180deg, rgba(2, 3, 4, 0.4) 0%, rgba(2, 3, 4, 0.5) 50%, rgba(2, 3, 4, 0.78) 100%);
