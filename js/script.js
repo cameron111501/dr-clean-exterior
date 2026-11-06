@@ -100,10 +100,26 @@ function initMobileCta() {
   bar.className = "mobile-cta";
   bar.innerHTML = `
     <a href="free-estimate.html" class="btn btn-primary">Free Estimate</a>
-    <a href="tel:2107846009" class="btn btn-secondary">Call/Text Now</a>
+    <button type="button" class="btn btn-secondary mobile-cta-contact" aria-haspopup="true" aria-expanded="false">Call/Text Now</button>
+    <div class="mobile-cta-menu" role="menu" hidden>
+      <a href="tel:2107846009" class="btn btn-primary" role="menuitem">Call 210-784-6009</a>
+      <a href="sms:2107846009" class="btn btn-secondary" role="menuitem">Text 210-784-6009</a>
+    </div>
   `;
   document.body.appendChild(bar);
   document.body.classList.add("has-mobile-cta");
+
+  // Call/Text button opens a small call-or-text chooser above the bar.
+  const contactBtn = bar.querySelector(".mobile-cta-contact");
+  const menu = bar.querySelector(".mobile-cta-menu");
+  const setMenu = (open) => {
+    menu.hidden = !open;
+    contactBtn.setAttribute("aria-expanded", String(open));
+  };
+  contactBtn.addEventListener("click", () => setMenu(menu.hidden));
+  menu.addEventListener("click", () => setTimeout(() => setMenu(false), 0));
+  document.addEventListener("click", (e) => { if (!bar.contains(e.target)) setMenu(false); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") setMenu(false); });
 
   // Keep the bar out of the way until the visitor scrolls past the hero.
   const hero = document.querySelector(".hero, .page-hero");
@@ -113,7 +129,9 @@ function initMobileCta() {
   }
   new IntersectionObserver((entries) => {
     const e = entries[entries.length - 1];
-    bar.classList.toggle("show", !e.isIntersecting && e.boundingClientRect.bottom <= 0);
+    const show = !e.isIntersecting && e.boundingClientRect.bottom <= 0;
+    bar.classList.toggle("show", show);
+    if (!show) setMenu(false);
   }, { threshold: 0 }).observe(hero);
 }
 
