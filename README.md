@@ -79,3 +79,7 @@ Each customer typing an address is one *session*: all keystroke lookups share on
 ### Required attribution
 
 The dropdown shows Google's "Powered by Google" logo (light or dark version to match the form). Don't remove it; it is required when showing Google suggestions outside a Google map.
+
+## Performance build
+The pages load the minified files (css/style.min.css, js/script.min.js, js/quote-wizard.min.js, js/address-autocomplete.min.js). Edit the readable sources (css/style.css, js/*.js) and then run powershell -File tools\minify.ps1 to rebuild them. Photos have WebP copies (with -360/-720, -s small sizes) used through srcset; the original JPG/PNG stay as the src fallback.
+

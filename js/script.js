@@ -7,7 +7,7 @@ function initExitIntent() {
   overlay.innerHTML = `
     <div class="exit-modal" role="dialog" aria-modal="true" aria-labelledby="exit-modal-title">
       <button class="exit-modal-close" aria-label="Close">&times;</button>
-      <img src="images/logo-full.png" alt="Dr. Clean Exterior Services" class="exit-modal-logo">
+      <img src="images/logo-full.png" srcset="images/logo-160.webp 160w, images/logo-320.webp 320w" sizes="92px" width="1107" height="1112" alt="Dr. Clean Exterior Services" class="exit-modal-logo">
       <span class="exit-modal-eyebrow">Wait &mdash; Before You Go</span>
       <h3 id="exit-modal-title">Your Free Screen Cleaning Is Ready</h3>
       <p>Consider this doctor's orders: get your window screens cleaned free with your first Dr. Clean visit. Boerne's best-reviewed exterior care, one estimate away.</p>
@@ -218,10 +218,12 @@ function initHeroSlides() {
 
   // Slides after the first carry data-bg and are loaded once the page is ready,
   // so the homepage isn't waiting on every hero photo up front.
+  const webp = document.createElement("canvas").toDataURL("image/webp").indexOf("data:image/webp") === 0;
   const load = (s) => {
     if (s.dataset.bg) {
       const phone = window.matchMedia("(max-width: 720px)").matches;
-      const src = phone ? s.dataset.bg.replace("images/", "images/m/") : s.dataset.bg;
+      let src = phone ? s.dataset.bg.replace("images/", "images/m/") : s.dataset.bg;
+      if (webp) src = src.replace(/\.jpg$/, ".webp");
       s.style.backgroundImage = `url('${src}')`;
       if (s.dataset.pos) s.style.backgroundPosition = `${s.dataset.pos} 60%`;
       delete s.dataset.bg;
@@ -417,116 +419,4 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 12000);
   }
 
-  // ---- Quote wizard (free-estimate.html) ----
-  const qwForm = document.querySelector("#quote-form");
-  const qwCard = document.querySelector("#quote-wizard");
-  if (qwForm && qwCard) {
-    qwCard.classList.add("js-wizard");
-    const steps = qwForm.querySelectorAll(".qw-step");
-    const dots = qwCard.querySelectorAll(".qw-dot");
-    const stepLabel = qwCard.querySelector("#qw-step-label");
-    const labels = ["Step 1 of 2 · Tell us about your property", "Step 2 of 2 · How should we reach you?"];
-    const $ = (sel) => qwForm.querySelector(sel);
-
-    const showStep = (n) => {
-      steps.forEach((s, i) => s.classList.toggle("active", i === n));
-      dots.forEach((d, i) => d.classList.toggle("active", i === n));
-      stepLabel.textContent = labels[n];
-      if (qwCard.getBoundingClientRect().top < 0) qwCard.scrollIntoView({ behavior: "smooth", block: "start" });
-    };
-
-    const showError = (id, msg, fields = []) => {
-      const box = $(id);
-      qwForm.querySelectorAll(".qw-invalid").forEach((f) => f.classList.remove("qw-invalid"));
-      if (!msg) { box.hidden = true; return true; }
-      box.textContent = msg;
-      box.hidden = false;
-      fields.forEach((f) => f.classList.add("qw-invalid"));
-      if (fields[0]) fields[0].focus();
-      return false;
-    };
-
-    // Category chips open their sub-option panels
-    qwForm.querySelectorAll('input[name="category"]').forEach((cb) => {
-      cb.addEventListener("change", () => {
-        document.getElementById(cb.dataset.panel).hidden = !cb.checked;
-      });
-    });
-
-    // Conditional fields
-    $("#timeline").addEventListener("change", (e) => {
-      $("#qw-date-field").hidden = e.target.value !== "Specific Date";
-    });
-    $("#referral").addEventListener("change", (e) => {
-      $("#qw-referrer-field").hidden = e.target.value !== "Referral / Word of Mouth";
-    });
-
-    const checked = (name) =>
-      Array.from(qwForm.querySelectorAll(`input[name="${name}"]:checked`)).map((c) => c.value);
-
-    const selectedServices = () => {
-      const cats = checked("category");
-      let list = [];
-      if (cats.includes("Window Cleaning")) {
-        const w = checked("window_services");
-        list = list.concat(w.length ? w : ["Window Cleaning"]);
-      }
-      if (cats.includes("Washing")) {
-        const p = checked("washing_services");
-        list = list.concat(p.length ? p : ["Soft / Pressure Washing"]);
-      }
-      return list;
-    };
-
-    const validateStep1 = () => {
-      if (!checked("category").length) return showError("#qw-error-1", "Pick at least one service.");
-      const addr = $("#address");
-      if (addr.value.trim().length < 5) return showError("#qw-error-1", "Please enter your service address.", [addr]);
-      return showError("#qw-error-1", "");
-    };
-
-    const validateStep2 = () => {
-      const fname = $("#first_name"), phone = $("#phone"), email = $("#email");
-      if (!fname.value.trim()) return showError("#qw-error-2", "Please enter your first name.", [fname]);
-      if (phone.value.replace(/\D/g, "").length < 10) return showError("#qw-error-2", "Please enter a valid phone number.", [phone]);
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) return showError("#qw-error-2", "Please enter a valid email address.", [email]);
-      return showError("#qw-error-2", "");
-    };
-
-    qwForm.querySelector(".qw-next").addEventListener("click", () => { if (validateStep1()) showStep(1); });
-    qwForm.querySelector(".qw-back").addEventListener("click", () => showStep(0));
-
-    // "Ask About This Plan" buttons preselect the frequency
-    document.querySelectorAll("[data-plan]").forEach((btn) => {
-      btn.addEventListener("click", () => { $("#frequency").value = btn.dataset.plan; });
-    });
-
-    qwForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      if (!validateStep1()) { showStep(0); return; }
-      if (!validateStep2()) return;
-
-      const data = new FormData(qwForm);
-      ["category", "window_services", "washing_services", "_next"].forEach((k) => data.delete(k));
-      data.set("services", selectedServices().join(", "));
-      data.set("name", `${$("#first_name").value} ${$("#last_name").value}`.trim());
-      data.set("email_optin", $('input[name="email_optin"]').checked ? "yes" : "no");
-      if ($("#qw-date-field").hidden) data.delete("preferred_date");
-      if ($("#qw-referrer-field").hidden) data.delete("referrer");
-
-      const submitBtn = qwForm.querySelector(".qw-submit");
-      const idleLabel = submitBtn.textContent;
-      submitBtn.disabled = true;
-      submitBtn.textContent = "Sending...";
-      try {
-        const res = await fetch(qwForm.action, { method: "POST", body: data, headers: { Accept: "application/json" } });
-        if (!res.ok) throw new Error(res.status);
-        window.location.href = "thank-you.html";
-      } catch (err) {
-        showError("#qw-error-2", "Something went wrong sending your request. Please call or text 210-784-6009.");
-        submitBtn.disabled = false;
-        submitBtn.textContent = idleLabel;
-      }
-    });
-  }
 });

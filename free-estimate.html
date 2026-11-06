@@ -19,7 +19,7 @@
 <meta name="twitter:image" content="https://www.drcleanexterior.com/images/logo-full.png">
 <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="images/favicon-180.png">
-<link rel="stylesheet" href="css/style.css?v=3">
+<link rel="stylesheet" href="css/style.min.css?v=3">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -59,7 +59,7 @@
 <header class="site-header">
   <div class="container nav">
     <a href="index.html" class="brand">
-      <img src="images/logo-full.png" alt="Dr. Clean Exterior Services" class="nav-logo">
+      <img src="images/logo-full.png" srcset="images/logo-160.webp 160w, images/logo-320.webp 320w, images/logo-450.webp 450w" sizes="(max-width: 720px) 52px, 74px" width="1107" height="1112" alt="Dr. Clean Exterior Services" class="nav-logo">
     </a>
     <nav>
       <ul class="nav-links">
@@ -361,7 +361,7 @@
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <img src="images/logo-full.png" alt="Dr. Clean Exterior Services" class="footer-logo">
+        <img src="images/logo-full.png" srcset="images/logo-160.webp 160w, images/logo-320.webp 320w, images/logo-450.webp 450w" sizes="(max-width: 720px) 100px, 210px" width="1107" height="1112" alt="Dr. Clean Exterior Services" class="footer-logo" loading="lazy" decoding="async">
         <p>Your exterior’s go-to doctor. From spot-free windows to soft-washed siding and roofs, we keep Hill Country homes looking their best, visit after visit</p>
       </div>
       <div>
@@ -411,8 +411,9 @@
   </div>
 </footer>
 
-<script src="js/script.js?v=3"></script>
-<script src="js/address-autocomplete.js?v=1" defer></script>
+<script src="js/script.min.js?v=3"></script>
+<script src="js/quote-wizard.min.js?v=1" defer></script>
+<script src="js/address-autocomplete.min.js?v=2" defer></script>
 <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
 <script defer src="/_vercel/insights/script.js"></script>
 </body>

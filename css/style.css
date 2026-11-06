@@ -1604,9 +1604,15 @@ p { color: var(--muted); margin: 0 0 16px; }
 }
 
 /* First hero slide: set in CSS so phones can fetch the small copy instead of the 2000px one */
-#hero-first { background-image: url('../images/hero-7.jpg'); }
+#hero-first {
+  background-image: url('../images/hero-7.jpg');
+  background-image: image-set(url('../images/hero-7.webp') type('image/webp'), url('../images/hero-7.jpg') type('image/jpeg'));
+}
 @media (max-width: 720px) {
-  #hero-first { background-image: url('../images/m/hero-7.jpg'); }
+  #hero-first {
+    background-image: url('../images/m/hero-7.jpg');
+    background-image: image-set(url('../images/m/hero-7.webp') type('image/webp'), url('../images/m/hero-7.jpg') type('image/jpeg'));
+  }
   .breadcrumb a { display: inline-block; padding: 10px 6px; }
 }
 
