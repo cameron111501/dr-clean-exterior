@@ -135,6 +135,57 @@ function initMobileCta() {
   }, { threshold: 0 }).observe(hero);
 }
 
+// Any link marked data-call-text opens a small "Call or Text" chooser instead of dialing straight away.
+// Without JavaScript the link is still a normal tel: link.
+function initCallText() {
+  const triggers = Array.from(document.querySelectorAll("[data-call-text]"));
+  if (!triggers.length) return;
+
+  const pop = document.createElement("div");
+  pop.className = "calltext-pop";
+  pop.setAttribute("role", "menu");
+  pop.hidden = true;
+  pop.innerHTML = `
+    <a href="tel:2107846009" class="btn btn-outline" role="menuitem">Call 210-784-6009</a>
+    <a href="sms:2107846009" class="btn btn-outline" role="menuitem">Text 210-784-6009</a>
+  `;
+  document.body.appendChild(pop);
+
+  let current = null;
+  const close = () => {
+    pop.hidden = true;
+    if (current) current.setAttribute("aria-expanded", "false");
+    current = null;
+  };
+  const place = (btn) => {
+    const r = btn.getBoundingClientRect();
+    const width = Math.max(r.width, 240);
+    const left = Math.min(Math.max(12, r.left + r.width / 2 - width / 2), window.innerWidth - width - 12);
+    pop.style.width = width + "px";
+    pop.style.left = left + window.scrollX + "px";
+    pop.style.top = r.bottom + window.scrollY + 8 + "px";
+  };
+
+  triggers.forEach((btn) => {
+    btn.setAttribute("aria-haspopup", "true");
+    btn.setAttribute("aria-expanded", "false");
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (current === btn) { close(); return; }
+      current = btn;
+      btn.setAttribute("aria-expanded", "true");
+      place(btn);
+      pop.hidden = false;
+    });
+  });
+  pop.addEventListener("click", () => setTimeout(close, 0));
+  document.addEventListener("click", (e) => {
+    if (current && !pop.contains(e.target) && !current.contains(e.target)) close();
+  });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
+  window.addEventListener("resize", close);
+}
+
 function initHeroSlides() {
   const hero = document.querySelector(".hero");
   const slides = hero ? Array.from(hero.querySelectorAll(".hero-slide")) : [];
@@ -238,6 +289,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initMobileCta();
   initTrustStrip();
   initHeroSlides();
+  initCallText();
   initLightbox();
   initExitIntent();
   initScrollReveal();
