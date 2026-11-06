@@ -1041,6 +1041,8 @@ p { color: var(--muted); margin: 0 0 16px; }
   .hero-grid { grid-template-columns: 1fr; }
   .area-wrap { grid-template-columns: 1fr; }
   .contact-wrap { grid-template-columns: 1fr; }
+  /* When stacked, the estimate form comes first and the contact card follows */
+  .contact-wrap .quote-wizard { order: -1; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
 }
 
