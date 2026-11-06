@@ -343,6 +343,20 @@ function initQuoteVideo() {
   }, { threshold: 0.25 }).observe(video);
 }
 
+// Google map embed: on phones it is not fetched until the visitor scrolls near it (a static preview image shows meanwhile).
+// On desktop it is set up straight away, exactly as before (the iframe is also loading="lazy").
+function initMapEmbed() {
+  const frame = document.querySelector(".map-embed iframe[data-src]");
+  if (!frame) return;
+  const load = () => { frame.src = frame.dataset.src; frame.removeAttribute("data-src"); };
+  const phone = window.matchMedia("(max-width: 720px)").matches;
+  if (!phone || !("IntersectionObserver" in window)) { load(); return; }
+  const io = new IntersectionObserver((entries) => {
+    if (entries.some((e) => e.isIntersecting)) { io.disconnect(); load(); }
+  }, { rootMargin: "300px 0px" });
+  io.observe(frame.parentElement);
+}
+
 function initTrustStrip() {
   const track = document.querySelector(".trust-strip .trust-track");
   if (track) track.innerHTML = track.innerHTML.repeat(4);
@@ -357,6 +371,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initCallText();
   initBaMarquee();
   initQuoteVideo();
+  initMapEmbed();
   initLightbox();
   initExitIntent();
   initScrollReveal();

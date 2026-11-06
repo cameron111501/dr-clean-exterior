@@ -19,11 +19,11 @@
 <meta name="twitter:image" content="https://www.drcleanexterior.com/images/logo-full.png">
 <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="images/favicon-180.png">
-<link rel="preload" as="image" href="images/hero-7.webp" type="image/webp" media="(min-width: 721px)" fetchpriority="high">
-<link rel="preload" as="image" href="images/m/hero-7.webp" type="image/webp" media="(max-width: 720px)" fetchpriority="high">
+<link rel="preload" as="image" href="images/hero-7.webp" type="image/webp" media="(min-width: 721px), (orientation: landscape)" fetchpriority="high">
+<link rel="preload" as="image" href="images/m/hero-7-800.webp" type="image/webp" media="(max-width: 720px) and (orientation: portrait)" fetchpriority="high">
 <link rel="preload" as="font" type="font/woff2" href="fonts/playfair-display-700.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="fonts/montserrat-800.woff2" crossorigin>
-<link rel="stylesheet" href="css/style.min.css?v=3">
+<link rel="stylesheet" href="css/style.min.css?v=6">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -87,7 +87,13 @@
 <section class="hero">
   <!-- Hero slideshow: first slide loads immediately; others use data-bg and load after the page is ready. To add one, copy a hero-slide line (images/hero-N.jpg, ~2000px wide landscape works best) -->
   <div class="hero-slides" aria-hidden="true">
-    <div class="hero-slide active" id="hero-first" style="background-position:48% 60%"></div>
+    <div class="hero-slide active" id="hero-first">
+      <!-- first slide is a real <img> (not a CSS background) so the browser finds it at once; phones get a small 800px crop of the same photo -->
+      <picture>
+        <source media="(max-width: 720px) and (orientation: portrait)" srcset="images/m/hero-7-800.webp" type="image/webp">
+        <img src="images/hero-7.webp" alt="" width="2000" height="1125" fetchpriority="high" decoding="async" style="object-position:48% 60%">
+      </picture>
+    </div>
     <div class="hero-slide" data-bg="images/hero-10.jpg" data-pos="50%"></div>
     <div class="hero-slide" data-bg="images/hero-13.jpg" data-pos="30%"></div>
     <div class="hero-slide" data-bg="images/hero-9.jpg" data-pos="58%"></div>
@@ -486,7 +492,8 @@
       <p class="area-note">Don&rsquo;t see your area? <a href="tel:2107846009">Give us a call</a>, we likely cover it.</p>
     </div>
     <div class="map-embed">
-      <iframe src="https://www.google.com/maps?ll=29.67,-98.62&z=10&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Dr. Clean Exterior Services area map"></iframe>
+      <iframe data-src="https://www.google.com/maps?ll=29.67,-98.62&z=10&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Dr. Clean Exterior Services area map"></iframe>
+      <noscript><iframe src="https://www.google.com/maps?ll=29.67,-98.62&z=10&output=embed" referrerpolicy="no-referrer-when-downgrade" title="Dr. Clean Exterior Services area map"></iframe></noscript>
     </div>
   </div>
 </section>
@@ -756,7 +763,7 @@
   </div>
 </footer>
 
-<script src="js/script.min.js?v=3"></script>
+<script defer src="js/script.min.js?v=4"></script>
 <script src="js/quote-wizard.min.js?v=1" defer></script>
 <script src="js/address-autocomplete.min.js?v=2" defer></script>
 <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
