@@ -410,8 +410,7 @@ document.addEventListener("DOMContentLoaded", () => {
         cards.forEach((card, i) => {
           const review = googleReviews[(offset + i) % googleReviews.length];
           card.querySelector("p").innerHTML = `&ldquo;${review.text}&rdquo;`;
-          card.querySelector(".testimonial-name").textContent = `${review.name} — Google review`;
-          card.classList.remove("fade");
+          card.querySelector(".testimonial-name").textContent = `${review.name} — Google review`;          card.classList.remove("fade");
         });
         offset = (offset + cards.length) % googleReviews.length;
       }, 350);

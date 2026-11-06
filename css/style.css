@@ -686,6 +686,16 @@ p { color: var(--muted); margin: 0 0 16px; }
 
 .testimonial-name { font-weight: 700; color: var(--blue-light); margin-top: 12px; }
 
+/* Review cards: all the same height, stars at the top, reviewer row pinned to the bottom, small Google "G" top right */
+.testimonial-grid { grid-auto-rows: 1fr; }
+.testimonial-card { position: relative; display: flex; flex-direction: column; }
+.testimonial-card p { flex: 1 1 auto; }
+.review-g { position: absolute; top: 18px; right: 18px; line-height: 0; }
+.review-g svg { width: 20px; height: 20px; display: block; }
+.testimonial-footer { display: flex; align-items: center; gap: 10px; margin-top: 14px; }
+.testimonial-footer .testimonial-name { margin-top: 0; }
+.reviews-more { text-align: center; margin-top: 36px; }
+
 .google-rating-badge {
   display: inline-flex;
   align-items: center;
@@ -1696,6 +1706,11 @@ p { color: var(--muted); margin: 0 0 16px; }
   .testimonial-card p { font-size: 0.62rem; margin-bottom: 6px; }
   .testimonial-name { font-size: 0.62rem; margin-top: 6px; }
   .stars { font-size: 0.7rem; margin-bottom: 6px; }
+  .review-g { top: 9px; right: 9px; }
+  .review-g svg { width: 14px; height: 14px; }
+  .testimonial-footer { gap: 6px; margin-top: 8px; }
+  .testimonial-footer .testimonial-name { margin-top: 0; line-height: 1.25; }
+  .reviews-more { margin-top: 18px; }
 
   .values-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .value-card { padding: 12px; }
