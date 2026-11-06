@@ -1869,6 +1869,91 @@ p { color: var(--muted); margin: 0 0 16px; }
 .quote-home .quote-wizard { max-width: 720px; margin: 0 auto; }
 .quote-home .section-head { margin-bottom: 28px; }
 
+/* Homepage "Get Your Free Quote" (desktop only): wider two-column layout, photo + trust list on the left, form on the right.
+   Phones and tablets keep the single centred form, so the photo/list and the chip icons stay hidden there. */
+.quote-aside, .qw-ico { display: none; }
+@media (min-width: 900px) {
+  .quote-home > .container { max-width: 1320px; }
+  .quote-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 48px;
+    align-items: start;
+  }
+  .quote-aside { display: block; }
+  .quote-photo {
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 8px 28px rgba(1, 126, 244, 0.16);
+  }
+  .quote-photo video { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: #dfe9f5; }
+  /* trust list: 2 x 2 small cards, each with an icon in a blue circle, a bold title and a smaller line */
+  .quote-trust { list-style: none; margin: 20px 0 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .quote-trust li {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    background: linear-gradient(160deg, #ffffff 0%, #eef5ff 100%);
+    border: 1px solid rgba(1, 126, 244, 0.14);
+    border-radius: 14px;
+    box-shadow: 0 6px 22px rgba(1, 126, 244, 0.14); /* the soft blue glow from the service cards */
+  }
+  .qt-ico {
+    flex: 0 0 auto;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #017ef4;
+    color: #fff;
+    display: grid;
+    place-items: center;
+  }
+  .qt-text { display: block; line-height: 1.25; }
+  .qt-text strong { display: block; font-size: 1rem; font-weight: 800; color: #0c1a2e; }
+  .qt-text span { display: block; margin-top: 2px; font-size: 0.86rem; color: #475569; }
+
+  .quote-home .quote-wizard { max-width: none; margin: 0; position: relative; }
+  /* thin blue accent line across the top of the form card (same blues as the service cards) */
+  /* the line is a full-card overlay (same corners, covering the card's own border) masked down to its top 4px, so it sits
+     right on the top edge and follows the rounded corners exactly */
+  .quote-home .quote-wizard::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(90deg, #8cc8ff, #017ef4);
+    -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 4px, transparent 4px);
+    mask-image: linear-gradient(to bottom, #000 0, #000 4px, transparent 4px);
+  }
+
+  /* bigger "Window Cleaning" / "Soft / Pressure Washing" buttons with an icon; the selected one turns solid blue */
+  .quote-home .qw-step[data-step="1"] > .qw-chips { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .quote-home .qw-chip-lg span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 18px 20px;
+    font-size: 1.08rem;
+    border-radius: 12px;
+    text-align: center;
+  }
+  .quote-home .qw-chip-lg .qw-ico { display: block; flex-shrink: 0; }
+  .quote-home .qw-chip-lg input:checked + span {
+    background: #017ef4;
+    border-color: #017ef4;
+    color: #fff;
+    box-shadow: 0 8px 20px rgba(1, 126, 244, 0.35);
+  }
+
+  /* "Next" button in red, like the other main buttons */
+  .quote-home .qw-next { background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%); color: #fff; box-shadow: 0 8px 24px rgba(215, 38, 61, 0.4); }
+  .quote-home .qw-next:hover { box-shadow: 0 14px 36px rgba(215, 38, 61, 0.5); }
+}
+
 /* Quote form: compact on phones, like the rest (fields stay 16px so iPhones don't zoom) */
 @media (max-width: 720px) {
   .quote-home { padding: 30px 0 34px; }

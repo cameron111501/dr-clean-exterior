@@ -134,6 +134,34 @@
       <h2>Get Your Free Quote</h2>
       <p>Tell us about your home and we&rsquo;ll reach out within a few hours with your price and open dates.</p>
     </div>
+    <div class="quote-layout">
+    <!-- desktop only: photo + trust list beside the form (hidden on phones and tablets) -->
+    <aside class="quote-aside" aria-label="Why request a quote">
+      <div class="quote-photo">
+        <!-- silent, looping; only downloads/plays once it scrolls into view (see initQuoteVideo in js/script.js) -->
+        <video class="quote-video" muted loop playsinline preload="none" disablepictureinpicture aria-hidden="true" tabindex="-1" data-poster="images/quote-video-poster.jpg">
+          <source src="images/quote-video.mp4" type="video/mp4">
+        </video>
+      </div>
+      <ul class="quote-trust">
+        <li>
+          <span class="qt-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9 6.8 19.6l1-5.8-4.3-4.1 5.9-.9L12 3.5z"/></svg></span>
+          <span class="qt-text"><strong>5.0 &#9733; Rated</strong><span>on Google</span></span>
+        </li>
+        <li>
+          <span class="qt-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span>
+          <span class="qt-text"><strong>Fast Replies</strong><span>within a few hours</span></span>
+        </li>
+        <li>
+          <span class="qt-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1v-8z"/></svg></span>
+          <span class="qt-text"><strong>Locally Owned</strong><span>in Boerne, TX</span></span>
+        </li>
+        <li>
+          <span class="qt-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+          <span class="qt-text"><strong>Free Estimates</strong><span>no obligation</span></span>
+        </li>
+      </ul>
+    </aside>
     <div class="form-card quote-wizard" id="quote-wizard">
 
       <div class="qw-progress" aria-hidden="true">
@@ -150,8 +178,8 @@
         <fieldset class="qw-step active" data-step="1">
           <legend class="qw-legend">What do you need?*</legend>
           <div class="qw-chips">
-            <label class="qw-chip qw-chip-lg"><input type="checkbox" name="category" value="Window Cleaning" data-panel="qw-panel-windows"><span>Window Cleaning</span></label>
-            <label class="qw-chip qw-chip-lg"><input type="checkbox" name="category" value="Washing" data-panel="qw-panel-washing"><span>Soft / Pressure Washing</span></label>
+            <label class="qw-chip qw-chip-lg"><input type="checkbox" name="category" value="Window Cleaning" data-panel="qw-panel-windows"><span><svg class="qw-ico" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M12 3v18M4 12h16"/></svg>Window Cleaning</span></label>
+            <label class="qw-chip qw-chip-lg"><input type="checkbox" name="category" value="Washing" data-panel="qw-panel-washing"><span><svg class="qw-ico" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c3 4 5.5 6.8 5.5 10a5.5 5.5 0 0 1-11 0C6.5 9.8 9 7 12 3z"/></svg>Soft / Pressure Washing</span></label>
           </div>
 
           <div class="qw-panel" id="qw-panel-windows" hidden>
@@ -316,6 +344,7 @@
         </fieldset>
       </form>
     </div>
+    </div><!-- /.quote-layout -->
   </div>
 </section>
 

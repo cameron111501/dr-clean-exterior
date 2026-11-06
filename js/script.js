@@ -318,6 +318,29 @@ function initBaMarquee() {
   box.classList.add("is-live");
 }
 
+// Homepage quote section (desktop): the silent looping video only loads and plays while it is on screen, so it never
+// slows the page down. It stays on its poster image if the visitor prefers reduced motion, and it is never fetched on phones
+// (the video is hidden there and has preload="none").
+function initQuoteVideo() {
+  const video = document.querySelector(".quote-video");
+  if (!video) return;
+  // the poster image is only fetched when the video is actually showing (desktop), never on phones
+  if (video.offsetParent !== null && video.dataset.poster) video.poster = video.dataset.poster;
+  if (!("IntersectionObserver" in window)) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  video.muted = true;
+  new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        const p = video.play();
+        if (p && p.catch) p.catch(() => {}); // autoplay refused: the poster image simply stays
+      } else {
+        video.pause();
+      }
+    });
+  }, { threshold: 0.25 }).observe(video);
+}
+
 function initTrustStrip() {
   const track = document.querySelector(".trust-strip .trust-track");
   if (track) track.innerHTML = track.innerHTML.repeat(4);
@@ -331,6 +354,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initHeroSlides();
   initCallText();
   initBaMarquee();
+  initQuoteVideo();
   initLightbox();
   initExitIntent();
   initScrollReveal();
