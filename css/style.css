@@ -184,8 +184,11 @@ p { color: var(--muted); margin: 0 0 16px; }
   color: var(--ink);
 }
 
+/* Nudge the header logo in from the edge (web and phone) */
+.nav .brand { margin-left: 16px; }
+
 .nav-logo {
-  height: 60px;
+  height: 74px;
   width: auto;
   display: block;
   filter: drop-shadow(0 0 12px rgba(1, 126, 244, 0.25));
@@ -1551,7 +1554,8 @@ p { color: var(--muted); margin: 0 0 16px; }
   /* Header */
   .promo-bar { font-size: 0.7rem; padding: 5px 0; }
   .nav { padding: 6px 0; }
-  .nav-logo { height: 40px; }
+  .nav-logo { height: 52px; }
+  .nav .brand { margin-left: 10px; }
   .nav-cta { gap: 6px; }
   .nav-cta .btn { padding: 8px 12px; font-size: 0.74rem; min-height: 38px; }
   .nav-toggle { min-width: 44px; min-height: 44px; font-size: 1.6rem; }
