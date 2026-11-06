@@ -1031,10 +1031,9 @@ p { color: var(--muted); margin: 0 0 16px; }
 
 .footer-grid {
   display: grid;
-  /* logo + tagline on the left; Quick Links and Contact grouped toward the right, a little in from the edge */
+  /* logo + tagline on the left; Quick Links and Contact grouped on the right, ending where the divider and bottom line end */
   grid-template-columns: minmax(0, 1fr) auto auto;
   gap: 40px 64px;
-  padding-right: clamp(0px, 6vw, 96px);
   margin-bottom: 40px;
 }
 
