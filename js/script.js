@@ -279,6 +279,31 @@ function initLightbox() {
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
 }
 
+// Before/after rows: clone the cards enough times to fill any screen, then drift slowly (rows run opposite ways).
+function initBaMarquee() {
+  const box = document.querySelector(".ba-marquee");
+  if (!box || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const SPEED = 26; // px per second
+  const screenW = Math.max(window.screen.width || 0, window.innerWidth);
+  box.querySelectorAll(".ba-track").forEach((track) => {
+    const originals = Array.from(track.children);
+    const unit = track.scrollWidth; // exact: cards are fixed width with a right margin
+    if (!unit) return;
+    const copies = Math.ceil(screenW / unit) + 1;
+    for (let c = 0; c < copies; c++) {
+      originals.forEach((card) => {
+        const clone = card.cloneNode(true);
+        clone.setAttribute("aria-hidden", "true");
+        clone.querySelector("a").tabIndex = -1;
+        track.appendChild(clone);
+      });
+    }
+    track.style.setProperty("--ba-shift", unit + "px");
+    track.style.setProperty("--ba-dur", Math.round(unit / SPEED) + "s");
+  });
+  box.classList.add("is-live");
+}
+
 function initTrustStrip() {
   const track = document.querySelector(".trust-strip .trust-track");
   if (track) track.innerHTML = track.innerHTML.repeat(4);
@@ -290,6 +315,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initTrustStrip();
   initHeroSlides();
   initCallText();
+  initBaMarquee();
   initLightbox();
   initExitIntent();
   initScrollReveal();
