@@ -97,6 +97,7 @@ h1 {
 
 h2 { font-size: clamp(1.7rem, 3vw, 2.4rem); }
 h3 { font-size: 1.25rem; }
+.as-h3 { font-size: 1.25rem; } /* an h2 styled exactly like the old h3 (keeps heading order without changing the look) */
 
 p { color: var(--muted); margin: 0 0 16px; }
 
@@ -564,7 +565,7 @@ p { color: var(--muted); margin: 0 0 16px; }
   box-shadow: 0 8px 20px rgba(215, 38, 61, 0.4);
 }
 
-.plan-step h4 { color: #fff; margin-bottom: 8px; font-size: 1rem; }
+.plan-step h3 { color: #fff; margin-bottom: 8px; font-size: 1rem; }
 .plan-step p { color: rgba(255, 255, 255, 0.6); font-size: 0.88rem; margin: 0; }
 
 .plan-cards {
@@ -772,7 +773,7 @@ p { color: var(--muted); margin: 0 0 16px; }
   box-shadow: var(--shadow);
 }
 
-.contact-info-card h3 { color: #fff; }
+.contact-info-card h3, .contact-info-card h2 { color: #fff; }
 .contact-info-card p { color: rgba(255,255,255,0.7); }
 
 .contact-info-row {
@@ -1063,7 +1064,7 @@ p { color: var(--muted); margin: 0 0 16px; }
   .footer-brand { grid-column: 1 / -1; }
 }
 
-.footer-grid h4 { color: #fff; font-size: 1rem; margin-bottom: 10px; }
+.footer-grid h3 { color: #fff; font-size: 1rem; margin-bottom: 10px; }
 
 .footer-grid ul { list-style: none; margin: 0; padding: 0; }
 .footer-grid li { margin-bottom: 5px; }
@@ -1648,6 +1649,7 @@ p { color: var(--muted); margin: 0 0 16px; }
   /* Type and buttons */
   h2 { font-size: 1.3rem; margin-bottom: 8px; }
   h3 { font-size: 0.85rem; margin-bottom: 6px; }
+  .as-h3 { font-size: 0.85rem; margin-bottom: 6px; }
   p { font-size: 0.8rem; margin-bottom: 10px; }
   .eyebrow { font-size: 0.62rem; margin-bottom: 6px; }
   .btn { padding: 9px 14px; font-size: 0.74rem; min-height: 38px; }
@@ -1697,7 +1699,7 @@ p { color: var(--muted); margin: 0 0 16px; }
   .plan-steps { grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 28px; }
   .plan-steps-3 { grid-template-columns: repeat(3, 1fr); max-width: none; }
   .plan-step-num { width: 28px; height: 28px; font-size: 0.78rem; margin-bottom: 8px; }
-  .plan-step h4 { font-size: 0.66rem; margin-bottom: 4px; }
+  .plan-step h3 { font-size: 0.66rem; margin-bottom: 4px; }
   .plan-step p { font-size: 0.58rem; }
   .plan-cards { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .plan-card { padding: 12px; }
@@ -1765,7 +1767,7 @@ p { color: var(--muted); margin: 0 0 16px; }
   .footer-grid > div:last-child { width: min-content; } /* Contact is only as wide as its longest word, so the email wraps after the @ */
   .footer-grid li { white-space: nowrap; }
   .footer-grid li:has(a[href^="mailto"]) { white-space: normal; }
-  .footer-grid h4 { font-size: 0.72rem; margin-bottom: 3px; }
+  .footer-grid h3 { font-size: 0.72rem; margin-bottom: 3px; }
   .footer-grid li { margin-bottom: 0; font-size: 0.64rem; line-height: 1.25; }
   .footer-grid a { display: inline-block; padding: 3px 0; }
   .footer-grid li:not(:has(a)) { padding: 3px 0; } /* plain-text lines (Boerne, TX) match the link rows */
@@ -2275,5 +2277,65 @@ p { color: var(--muted); margin: 0 0 16px; }
 }
 
 /* Estimate page: dark card inside the white form section keeps its light text */
-.lt .contact-info-card h3 { color: #fff; }
+.lt .contact-info-card h3, .lt .contact-info-card h2 { color: #fff; }
 .lt .contact-info-card p { color: rgba(255, 255, 255, 0.7); }
+
+/* =====================================================
+   Touch targets: every link / button is at least 48 x 48px with at least 8px between neighbours.
+   Where a single link can grow without moving anything, its padding is cancelled by an equal negative margin.
+   ===================================================== */
+.nav-links a { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; min-width: 48px; padding: 0 4px; }
+@media (min-width: 901px) { .nav-phone { display: inline-flex; align-items: center; min-height: 48px; } }
+.nav-toggle { min-width: 48px; min-height: 48px; }
+.breadcrumb a { display: inline-block; padding: 14px 8px; margin: -14px -8px; }
+.service-card a.learn-more, .learn-more { display: inline-flex; align-items: center; min-height: 48px; min-width: 48px; padding: 12px 0; margin: -12px 0; }
+.google-rating-badge { min-height: 48px; }
+.contact-info-row a { display: inline-flex; align-items: center; min-height: 48px; padding: 0; }
+
+/* town list: 48px-tall rows, underline drawn as text decoration so it stays where it was */
+.area-list li a {
+  display: inline-flex; align-items: center; min-height: 48px; min-width: 48px;
+  padding: 0; border-bottom: 0;
+  text-decoration: underline; text-decoration-color: rgba(1, 126, 244, 0.45); text-decoration-thickness: 1px; text-underline-offset: 4px;
+}
+.area-list li a:hover { text-decoration-color: #017ef4; }
+.area-list { gap: 8px 12px; }
+
+/* form fields */
+.field input:not([type=checkbox]):not([type=radio]), .field select { min-height: 48px; }
+
+/* footer link columns */
+.footer-grid li { margin-bottom: 8px; }
+.footer-grid li a { display: inline-flex; align-items: center; min-height: 48px; min-width: 48px; padding: 0; }
+
+/* hero slider dots: 48px buttons, the visible dot stays small */
+.hero-dots { bottom: 2px; gap: 8px; }
+.hero-dots button { position: relative; width: 48px; height: 48px; background: none; transition: none; }
+.hero-dots button::before {
+  content: ""; position: absolute; left: 50%; top: 50%; width: 8px; height: 8px; margin: -4px 0 0 -4px; border-radius: 999px;
+  background: rgba(255, 255, 255, 0.35); transition: width 0.3s ease, margin 0.3s ease, background 0.3s ease;
+}
+.hero-dots button.active { width: 48px; background: none; }
+.hero-dots button.active::before { width: 26px; margin-left: -13px; background: var(--blue-light); }
+
+@media (max-width: 720px) {
+  .btn, .hero-actions .btn, .cta-band .hero-actions .btn, .quote-wizard .btn, .nav-cta .btn { min-height: 48px; }
+  .nav-links.open { gap: 8px; }
+  .nav-links.open a { display: flex; justify-content: flex-start; padding: 0; min-height: 48px; }
+  .breadcrumb a { padding: 14px 8px; margin: -14px -8px; }
+  .learn-more { padding: 12px 0; margin: -4px 0; }
+  .area-list { gap: 8px 12px; }
+  .area-list li { padding: 0; }
+  .footer-grid li { margin-bottom: 8px; }
+  .footer-grid a { display: inline-flex; padding: 0; }
+  .footer-grid li:not(:has(a)) { padding: 3px 0; }
+  .hero-dots { bottom: 0; gap: 0; }
+  .hero-dots button { width: min(48px, calc((100vw - 16px) / 7)); }
+  .hero-dots button.active { width: min(48px, calc((100vw - 16px) / 7)); }
+  .quote-wizard .field input, .quote-wizard .field select { min-height: 48px; }
+  .nav-cta { gap: 8px; }
+  .hero-actions { gap: 8px; }
+  .photo-grid { gap: 8px; }
+  .qw-chips { gap: 8px; }
+  .qw-chip span { display: inline-flex; align-items: center; min-height: 48px; }
+}
