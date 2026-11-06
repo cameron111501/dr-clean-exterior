@@ -104,6 +104,17 @@ function initMobileCta() {
   `;
   document.body.appendChild(bar);
   document.body.classList.add("has-mobile-cta");
+
+  // Keep the bar out of the way until the visitor scrolls past the hero.
+  const hero = document.querySelector(".hero, .page-hero");
+  if (!hero || !("IntersectionObserver" in window)) {
+    bar.classList.add("show");
+    return;
+  }
+  new IntersectionObserver((entries) => {
+    const e = entries[entries.length - 1];
+    bar.classList.toggle("show", !e.isIntersecting && e.boundingClientRect.bottom <= 0);
+  }, { threshold: 0 }).observe(hero);
 }
 
 function initHeroSlides() {

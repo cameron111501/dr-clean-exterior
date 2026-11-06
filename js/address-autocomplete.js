@@ -12,7 +12,7 @@
 (function () {
   "use strict";
 
-  var PLACES_API_KEY = ""; // e.g. "AIza..." (restricted browser key)
+  var PLACES_API_KEY = "AIzaSyD1dGlQFLQ5Yqmzs0rn9qCCOR1pjHS8ESs"; // restricted browser key (referrer + API limited)
 
   // Bias results toward the service area (San Antonio / Stone Oak / Helotes / Boerne /
   // Fair Oaks Ranch). It is a bias, not a restriction, so any valid US address still works.

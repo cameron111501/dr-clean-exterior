@@ -1232,6 +1232,8 @@ p { color: var(--muted); margin: 0 0 16px; }
   }
   .mobile-cta .btn { flex: 1; padding: 12px 10px; white-space: nowrap; }
   .mobile-cta .btn:last-child { flex: 1.45; }
+  .mobile-cta { transform: translateY(110%); visibility: hidden; transition: transform 0.3s ease, visibility 0s linear 0.3s; }
+  .mobile-cta.show { transform: none; visibility: visible; transition: transform 0.3s ease, visibility 0s; }
   body.has-mobile-cta { padding-bottom: 72px; }
 }
 
