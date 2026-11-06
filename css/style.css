@@ -1,5 +1,21 @@
 /* Dr. Clean Exterior Services — dark/rich theme (experimental) */
 
+/* Hero headline fonts (self-hosted, Latin subset): Playfair Display SemiBold + Montserrat Bold */
+@font-face {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../fonts/playfair-display-600.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../fonts/montserrat-700.woff2") format("woff2");
+}
+
 :root {
   --navy: #03070d;
   --blue: #017ef4;
@@ -1728,6 +1744,25 @@ p { color: var(--muted); margin: 0 0 16px; }
   }
 }
 .hero h1 { text-wrap: balance; }
+/* "Premium Pure Water" in Playfair Display SemiBold, "Window Cleaning" in Montserrat Bold */
+.hero h1 { font-family: "Playfair Display", Georgia, "Times New Roman", serif; font-weight: 600; }
+.hero h1 .hl { font-family: "Montserrat", "Segoe UI", system-ui, sans-serif; font-weight: 700; letter-spacing: -0.01em; }
+/* Bigger hero text on computers (the hero now fills the whole screen, so the type needs to match) */
+@media (min-width: 721px) {
+  .hero-grid > div { max-width: 700px; }
+  .hero h1 { font-size: clamp(2.6rem, 4.1vw, 3.7rem); line-height: 1.1; margin-bottom: 18px; }
+  .hero p.lead { font-size: clamp(1.05rem, 1.35vw, 1.25rem); line-height: 1.55; max-width: 560px; }
+  .hero-badge { font-size: 0.85rem; padding: 9px 18px; margin-bottom: 22px; }
+  .hero-actions { gap: 18px; margin-top: 30px; }
+  .hero-actions .btn { font-size: 1rem; padding: 15px 32px; }
+  .hero-stats { gap: 40px; margin-top: 52px; }
+  .hero-stat strong { font-size: 1.8rem; }
+  .hero-stat span { font-size: 0.92rem; }
+}
+@media (max-width: 720px) {
+  /* Phone photos: no slow zoom (it keeps re-scaling the image and softens it); a plain fade keeps them crisp */
+  .hero-slide { transform: none; transition: opacity 1.4s ease; }
+}
 @media (max-width: 720px) {
   /* taller hero so the photo shows, text centred over it */
   .hero { display: flex; align-items: center; padding: 28px 0 52px; }
