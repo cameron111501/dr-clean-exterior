@@ -1031,10 +1031,15 @@ p { color: var(--muted); margin: 0 0 16px; }
 
 .footer-grid {
   display: grid;
-  /* logo + tagline on the left; Quick Links and Contact grouped on the right, ending where the divider and bottom line end */
-  grid-template-columns: minmax(0, 1fr) auto auto;
-  gap: 40px 64px;
+  /* logo + tagline on the left; Quick Links, Services, Service Areas and Contact grouped on the right, ending where the divider and bottom line end */
+  grid-template-columns: minmax(0, 1fr) auto auto auto auto;
+  gap: 40px 48px;
   margin-bottom: 40px;
+}
+/* mid-size desktops: logo + tagline get their own row, the four link columns spread across underneath */
+@media (min-width: 901px) and (max-width: 1180px) {
+  .footer-grid { grid-template-columns: repeat(4, auto); justify-content: space-between; }
+  .footer-brand { grid-column: 1 / -1; }
 }
 
 .footer-grid h4 { color: #fff; font-size: 1rem; margin-bottom: 10px; }
@@ -1044,16 +1049,19 @@ p { color: var(--muted); margin: 0 0 16px; }
 .footer-grid a:hover { color: #fff; }
 
 .footer-brand .brand { color: #fff; margin-bottom: 12px; }
-.footer-brand p { color: rgba(255,255,255,0.55); max-width: 320px; }
-/* the logo centres over the tagline: the brand block is as wide as the text */
+.footer-brand p { display: none; } /* no tagline paragraph in the footer; the logo fills that space */
 .footer-brand { max-width: 320px; }
 
 .footer-logo {
-  height: 140px;
+  height: 210px;
   width: auto;
-  margin: 0 auto var(--footer-gap);
+  margin: 0;
   display: block;
   filter: drop-shadow(0 0 16px rgba(1, 126, 244, 0.25));
+}
+/* when the logo sits on its own row (mid-size screens) it doesn't need to be as tall */
+@media (max-width: 1180px) {
+  .footer-logo { height: 150px; }
 }
 
 .footer-bottom {
@@ -1712,7 +1720,8 @@ p { color: var(--muted); margin: 0 0 16px; }
   .footer-brand { display: contents; }
   .footer-brand .footer-logo { flex: 0 0 100%; width: 100%; object-fit: contain; }
   .footer-brand p { flex: 0 0 100%; max-width: 320px; margin: 0 auto; text-align: center; }
-  .footer-brand p::after { content: "."; } /* phone only: the tagline ends with a period */
+  .footer-brand p { display: none; } /* phone: no tagline paragraph */
+  .footer-col-services, .footer-col-areas { display: none; } /* phone keeps just Quick Links + Contact */
   .footer-grid li { white-space: nowrap; }
   .footer-grid h4 { font-size: 0.72rem; margin-bottom: 6px; }
   .footer-grid li { margin-bottom: 0; font-size: 0.64rem; line-height: 1.3; }
