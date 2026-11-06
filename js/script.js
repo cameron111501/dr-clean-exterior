@@ -182,6 +182,27 @@ function initHeroSlides() {
   };
   show(0);
   restart();
+
+  // Swipe the photos with a finger on touch screens (no arrows; dots handle desktop clicks).
+  let sx = 0, sy = 0, tracking = false;
+  hero.addEventListener("touchstart", (e) => {
+    if (e.touches.length !== 1) { tracking = false; return; }
+    sx = e.touches[0].clientX;
+    sy = e.touches[0].clientY;
+    tracking = true;
+  }, { passive: true });
+  hero.addEventListener("touchend", (e) => {
+    if (!tracking) return;
+    tracking = false;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - sx;
+    const dy = t.clientY - sy;
+    // Mostly-horizontal swipe only, so normal page scrolling still works.
+    if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+    show((current + (dx < 0 ? 1 : slides.length - 1)) % slides.length);
+    restart();
+  }, { passive: true });
+  hero.addEventListener("touchcancel", () => { tracking = false; }, { passive: true });
 }
 
 function initLightbox() {
