@@ -1685,10 +1685,11 @@ p { color: var(--muted); margin: 0 0 16px; }
   .diff-list p { font-size: 0.6rem; }
   .diff-list .reason-num { width: 22px; height: 22px; font-size: 0.6rem; }
 
-  .area-wrap { grid-template-columns: 1fr 1fr; gap: 14px; }
-  .area-list { grid-template-columns: repeat(2, 1fr); gap: 6px; }
-  .area-list li { font-size: 0.7rem; padding: 6px 8px; }
-  .map-embed { min-height: 220px; }
+  /* Service areas: text + city list across the full width (every city on a single line, even two-word ones), map underneath */
+  .area-wrap { grid-template-columns: 1fr; gap: 16px; }
+  .area-list { grid-template-columns: repeat(2, 1fr); gap: 4px 12px; margin-top: 14px; }
+  .area-list li { font-size: 0.8rem; padding: 6px 0; white-space: nowrap; }
+  .map-embed { height: 210px; min-height: 0; }
 
   .testimonial-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
   .testimonial-card { padding: 10px; }
