@@ -19,11 +19,11 @@
 <meta name="twitter:image" content="https://www.drcleanexterior.com/images/logo-full.png">
 <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="images/favicon-180.png">
-<link rel="preload" as="image" href="images/hero-7.webp" type="image/webp" media="(min-width: 721px), (orientation: landscape)" fetchpriority="high">
-<link rel="preload" as="image" href="images/m/hero-7-800.webp" type="image/webp" media="(max-width: 720px) and (orientation: portrait)" fetchpriority="high">
+<link rel="preload" as="image" href="images/hero-7.webp" type="image/webp" media="(min-width: 721px), (min-aspect-ratio: 4/5)" fetchpriority="high">
+<link rel="preload" as="image" href="images/m/hero-7-p.webp" type="image/webp" media="(max-width: 720px) and (max-aspect-ratio: 4/5)" fetchpriority="high">
 <link rel="preload" as="font" type="font/woff2" href="fonts/playfair-display-700.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="fonts/montserrat-800.woff2" crossorigin>
-<link rel="stylesheet" href="css/style.min.css?v=8">
+<link rel="stylesheet" href="css/style.min.css?v=9">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -90,10 +90,10 @@
   <!-- Hero slideshow: first slide loads immediately; others use data-bg and load after the page is ready. To add one, copy a hero-slide line (images/hero-N.jpg, ~2000px wide landscape works best) -->
   <div class="hero-slides" aria-hidden="true">
     <div class="hero-slide active" id="hero-first">
-      <!-- first slide is a real <img> (not a CSS background) so the browser finds it at once; phones get a small 800px crop of the same photo -->
+      <!-- first slide is a real <img> (not a CSS background) so the browser finds it at once; portrait phones get a crop of the same photo at full original detail -->
       <picture>
-        <source media="(max-width: 720px) and (orientation: portrait)" srcset="images/m/hero-7-800.webp" type="image/webp">
-        <img src="images/hero-7.webp" alt="" width="2000" height="1125" fetchpriority="high" decoding="async" style="object-position:48% 60%">
+        <source media="(max-width: 720px) and (max-aspect-ratio: 4/5)" srcset="images/m/hero-7-p.webp" type="image/webp">
+        <img src="images/hero-7.webp" alt="" width="2000" height="1125" fetchpriority="high" decoding="async">
       </picture>
     </div>
     <div class="hero-slide" data-bg="images/hero-10.jpg" data-pos="50%"></div>
@@ -358,7 +358,7 @@
 
 <section class="section">
   <div class="container diff-wrap">
-    <img src="images/pure-water.jpg" srcset="images/pure-water-500.webp 500w, images/pure-water-970.webp 970w" sizes="(max-width: 720px) 155px, 490px" width="1179" height="1474" alt="Dr. Clean cleaning tall glass doors with a water-fed pole, Boerne TX" class="diff-photo" loading="lazy" decoding="async">
+    <img src="images/pure-water.jpg" srcset="images/pure-water-500.webp 500w, images/pure-water-970.webp 970w, images/pure-water-1179.webp 1179w" sizes="(max-width: 720px) 155px, 490px" width="1179" height="1474" alt="Dr. Clean cleaning tall glass doors with a water-fed pole, Boerne TX" class="diff-photo" loading="lazy" decoding="async">
     <div>
       <span class="eyebrow">Our Window Method</span>
       <h2>Pure Water. Spot-Free Glass.</h2>
@@ -767,7 +767,7 @@
   </div>
 </footer>
 
-<script defer src="js/script.min.js?v=4"></script>
+<script defer src="js/script.min.js?v=5"></script>
 <script src="js/quote-wizard.min.js?v=1" defer></script>
 <script src="js/address-autocomplete.min.js?v=2" defer></script>
 <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>

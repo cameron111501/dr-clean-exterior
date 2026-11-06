@@ -221,11 +221,14 @@ function initHeroSlides() {
   const webp = document.createElement("canvas").toDataURL("image/webp").indexOf("data:image/webp") === 0;
   const load = (s) => {
     if (s.dataset.bg) {
-      const phone = window.matchMedia("(max-width: 720px)").matches;
-      let src = phone ? s.dataset.bg.replace("images/", "images/m/") : s.dataset.bg;
-      if (webp) src = src.replace(/\.jpg$/, ".webp");
+      // portrait phones get a crop at full original detail (already centred), everyone else the full-width photo
+      const portraitPhone = window.matchMedia("(max-width: 720px) and (max-aspect-ratio: 4/5)").matches;
+      let src = s.dataset.bg;
+      let pos = s.dataset.pos;
+      if (webp && portraitPhone) { src = src.replace("images/", "images/m/").replace(/\.jpg$/, "-p.webp"); pos = "50%"; }
+      else if (webp) src = src.replace(/\.jpg$/, ".webp");
       s.style.backgroundImage = `url('${src}')`;
-      if (s.dataset.pos) s.style.backgroundPosition = `${s.dataset.pos} 60%`;
+      if (pos) s.style.backgroundPosition = `${pos} 60%`;
       delete s.dataset.bg;
     }
   };

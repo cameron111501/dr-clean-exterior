@@ -1622,7 +1622,10 @@ p { color: var(--muted); margin: 0 0 16px; }
   height: 100%;
   max-width: none;
   object-fit: cover;
+  object-position: 48% 60%;
 }
+/* the portrait-phone crop is already centred on the same spot */
+@media (max-width: 720px) and (max-aspect-ratio: 4/5) { #hero-first img { object-position: 50% 60%; } }
 @media (max-width: 720px) {
   .breadcrumb a { display: inline-block; padding: 10px 6px; }
   /* Phone: start the hero at (just under) its final height before the script measures the promo bar + header, so the first photo is already its full size on first paint and later slides can never become the larger "largest paint". */
